@@ -1,0 +1,17 @@
+# Ignore configuration files that may contain sensitive information.
+settings/*
+
+
+
+.DS_Store
+
+
+#ignore Compass/SASS files
+.sass-cache
+.sass-cache/*
+Guardfile
+.Guardfile
+
+*.codekit
+=======
+*.codekit

@@ -1,0 +1,264 @@
+.img-responsive {
+	max-width: 100%;
+	height: auto;	
+}
+
+.embed-responsive {
+  position: relative;
+  display: block;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+
+
+  .embed-responsive-item,
+  iframe,
+  embed,
+  object {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    border: 0;
+  }
+
+  // Modifier class for 16:9 aspect ratio
+  &.embed-responsive-16by9 {
+    padding-bottom: 56.25%;
+  }
+
+  // Modifier class for 4:3 aspect ratio
+  &.embed-responsive-4by3 {
+    padding-bottom: 75%;
+  }
+}
+
+
+
+#camvideoWrapper, #finalVideo {
+	margin-bottom: 30px;
+	position: relative;
+	
+	#recording {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+		z-index: 5;
+		border-radius: 50%;
+		width: 20px;
+		height: 20px; 
+		background-color: $aa-red;
+		opacity: 0.9;
+		
+		-webkit-animation: fadeAnimation 2s infinite;
+		-moz-animation: fadeAnimation 2s infinite;
+		-o-animation: fadeAnimation 2s infinite;
+		animation: fadeAnimation 2s infinite;
+		
+		display: none;
+		
+	}
+	
+	video {
+		background: #eee;
+		border:1px solid #ddd;
+		width: 100%;
+		height: auto;
+		position: relative;
+		&#camplayer {
+			z-index: 1;
+			display: none;
+		}
+		
+		&#camvideo {
+			z-index: 2;
+			
+		}
+	}
+}
+
+.recording-button {
+	margin-right: 10px;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	color: white !important;
+	
+	&.start {
+		
+		background-color: $aa-green;
+		border: 1px solid $aa-green;
+		
+	}
+	
+	&.stop, &.download-button {
+		background-color: $aa-red;
+		border: 1px solid $aa-red;
+	}
+		
+	&.play {
+		background-color: $aa-purple;
+		border: 1px solid $aa-purple;
+	}
+	
+	&.twitter-button {
+		background-color: #55acee;
+		border: 1px solid #55acee;;
+	}
+	
+		
+		
+	&:not([disabled]) {
+		
+		&:hover {
+			color: white !important;	
+			
+			&.stop, &.download-button {
+				background: darken($aa-red,10%);
+				border-bottom-color: darken($aa-red,10%);
+			}
+			
+			&.start {
+				background: darken($aa-green,10%);
+				border-bottom-color: darken($aa-green,10%);
+			}
+			
+			&.play {
+				background: darken($aa-purple,10%);
+				border-bottom-color: darken($aa-purple,10%);
+			}
+			
+			&.twitter-button {
+				background-color: darken(#55acee,10%);
+				border: 1px solid darken(#55acee,10%);
+			}
+		}
+		
+		
+	}
+	
+	&[disabled] {
+		opacity: 0.2;
+		&:hover {
+			color: #FFF !important;	
+		}
+	}
+
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+
+  position: relative;
+  margin: 0;
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: $aa-red;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.error-box {
+	background: lighten($aa-red,40%);
+	border: 1px solid $aa-red;
+	border-radius: 2px;
+	margin: 0 0 10px 0;
+	padding: 10px;
+	
+	ul {
+		list-style-position: inside;
+		list-style-type: disc;
+		margin: 0;
+		padding: 0;
+		
+		li {
+			margin: 5px 0;
+			color: $aa-red;
+		}
+	}
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+#spinner, #spinner-upload, #finalVideo, #getMediaCapture {
+	display: none;
+}
+
+.sendForm {
+	position: relative;
+	
+	.sending {
+		display: none;
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		background-color: rgba(255,255,255,0.7);
+		
+		#sendspinner {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-left: -20px;
+			margin-top: -20px;
+		}
+	}
+}
+
+
+@keyframes fadeAnimation {
+  0%   { opacity:0.9; }
+  50%  { opacity:0; }
+  100% { opacity:0.9; }
+}
+@-o-keyframes fadeAnimation{
+  0%   { opacity:0.9; }
+  50%  { opacity:0; }
+  100% { opacity:0.9; }
+}
+@-moz-keyframes fadeAnimation{
+  0%   { opacity:0.9; }
+  50%  { opacity:0; }
+  100% { opacity:0.9; }
+}
+@-webkit-keyframes fadeAnimation{
+  0%   { opacity:0.9; }
+  50%  { opacity:0; }
+  100% { opacity:0.9; }
+}
+
+
+
+
+
+
