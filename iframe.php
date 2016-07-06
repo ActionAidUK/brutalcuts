@@ -1,16 +1,4 @@
-<?php
-	
-ini_set('display_errors',1);
-error_reporting(E_ALL);	
-
-if(!session_id()) {
-    session_start();
-}
-
-require __DIR__ . '/vendor/autoload.php';	
-require __DIR__ . '/includes/facebook.php';	
-
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -38,11 +26,17 @@ require __DIR__ . '/includes/facebook.php';
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/favicon.png">
-  
+
+
+    
   <script>
+	  
+	 var FB;
+	 
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '1199685040062462',
+      cookie: true, // This is important, it's not enabled by default      
       xfbml      : true,
       version    : 'v2.6'
     });
@@ -57,41 +51,61 @@ require __DIR__ . '/includes/facebook.php';
    }(document, 'script', 'facebook-jssdk'));
 </script>
 
+
+
 </head>
 <body>
 <div class="container">
     <div class="row">
-      <div class=" column" style="margin-top: 30px">
-<img src="images/ActionAid---Brutal-Cuts.png" class="img-responsive" />
+      <div class=" column">
 
+<div class="upload-area">
+	<form method="post" action="process.php" id="videoUploadForm" enctype="multipart/form-data">
 
+		<div id="simpleCapture">
+		<p><input type="file" id="uploadFile" accept="capture=camcorder
+			" name="video-blob"></p>
 
-
-<?php
-	
-	
-	
-	
-	
-	
-# login.php
-
-$helper = $fb->getRedirectLoginHelper();
-$permissions = ['email', 'user_likes']; // optional
-$loginUrl = $helper->getLoginUrl('https://actionaidhosting.org/facebookprofile-callback.php', $permissions);
-
-echo '<p><a href="' . $loginUrl . '">Log in with Facebook!</a></p>';
-
-
-
-	
-?>
-<pre>
-	<?php
+		<p id="filesize"></p>
+		</div>
 		
-//		print_r($graphObject);
-		?>
-</pre>
+		
+		
+		<p id="submit-wrap-upload"><input type="submit" value="Submit" name="theSubmit" id="submitButton" /></p>
+		<div id="spinner-upload">
+					<div class="spinner">
+					  <div class="double-bounce1"></div>
+					  <div class="double-bounce2"></div>
+					</div>
+				</div>
+		
+	</form>
+	
+	<div id="getMediaCapture">
+			
+			<p id="submit-wrap"><input id="saveVideo" type="button" value="Save"/></p>
+				
+				<div id="spinner">
+					<div class="spinner">
+					  <div class="double-bounce1"></div>
+					  <div class="double-bounce2"></div>
+					</div>
+				</div>
+				
+	</div>
+	
+	<div id="finalVideo">
+		
+		
+	</div>
+		
+	
+</div>
+
+<div id="upload-response">
+	
+	
+</div>     	
   </div>
     </div>
   </div>
@@ -105,7 +119,7 @@ echo '<p><a href="' . $loginUrl . '">Log in with Facebook!</a></p>';
     <script src="js/js-fileupload/vendor/jquery.ui.widget.js"></script>
 	<script src="js/js-fileupload/jquery.iframe-transport.js"></script>
 <script src="js/js-fileupload/jquery.fileupload.js"></script>
-    
+    <script src="js/iframeResizer.contentWindow.min.js"></script>
 	<script src="js/webrtc/adapter.js"></script>
   <script src="js-source/brutalcuts.js"></script>
   

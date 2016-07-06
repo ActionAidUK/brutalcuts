@@ -74,8 +74,8 @@ require __DIR__ . '/settings/facebook.php';
 try {
   // Returns a `Facebook\FacebookResponse` object
   $response = $fb->get('/me?fields=id,name,picture.width(300)', $_SESSION['facebook_access_token']);
+  $userNode = $response->getGraphUser();
   
-   $userNode = $response->getGraphUser();
 } catch(Facebook\Exceptions\FacebookResponseException $e) {
   echo 'Graph returned an error: ' . $e->getMessage();
   exit;

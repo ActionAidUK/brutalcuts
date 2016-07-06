@@ -417,7 +417,7 @@ aauk.imagesLoaded = false;
 			$("#getMediaCapture").hide();			
 			$("#videoUploadForm").hide();
 			        
-			$("#finalVideo").html('<div align="center" class="embed-responsive embed-responsive-16by9" ><video id="brutalCut"  autoplay poster="' + json.poster + '" controls class="embed-responsive-item"><source src="' + json.url + '" type="video/mp4">Your browser does not support the video tag.</video></div><p><br/><br/><a download target="_blank" class="button recording-button download-button" href="' + json.url + '">Download</a><a target="_blank" id="shareToTwitter" class="button recording-button twitter-button shareButton" href="twitter.php?vid=' + json.id + '" data-sharetype="TShareOauth" data-videoID="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '">Share to twitter</a></p>');
+			$("#finalVideo").html('<div align="center" class="embed-responsive embed-responsive-16by9" ><video id="brutalCut"  autoplay poster="' + json.poster + '" controls class="embed-responsive-item"><source src="' + json.url + '" type="video/mp4">Your browser does not support the video tag.</video></div><p><br/><br/><a download target="_blank" class="button recording-button download-button" href="' + json.url + '">Download</a><a target="_blank" id="shareToTwitter" class="button recording-button twitter-button shareButton" href="twitter.php?vid=' + json.id + '" data-sharetype="TShareOauth" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '">Share to twitter</a><a target="_blank" id="shareToFacebook" class="button recording-button twitter-button shareButton" href="facebook.php?vid=' + json.id + '" data-sharetype="facebookShare" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '">Share to Facebook</a></p>');
 				        
 			$("#finalVideo").show();
 			
@@ -492,60 +492,82 @@ aauk.imagesLoaded = false;
 	};}
 	
 	
+		
+	
 	if (typeof aauk.videoShare === "undefined"){
 		
 		aauk.videoShare = {
 			
-			shareFacebook: function(shareDetails){
-											
-				return true;
-			},
+			vid : '',
 			
 						
-			shareTwitterOauth: function(shareDetails){
+						
+			facebookLogin: function(){
 				
 				var _this = this;
-				
-				
-				var url = $('').attr('data-sharevideo'),
-					file = _this.dataURItoBlob(url);
-				
-				console.log(file);
 
+				FB.login(function(response) {
 				
-				// Dev site
-				//OAuth.initialize("xOoZR8QNYTQH31iAKdumCt8-rv0");
 				
-				// Live site
-				OAuth.initialize("v3zCfC1Nl5YnPQ81pVTba7wssCE");
-					
-				OAuth.popup("twitter").then(function(result) {
-					var data = new FormData();
-					// Tweet text
-					data.append('status', "Test tweet ");
-					
-					// Binary image
-					data.append('media[]', file, 'safe-cities.jpg');
-					
-					// Post to Twitter as an update with media
-					return result.post('/1.1/statuses/update_with_media.json', {
-					  data: data,
-					  cache: false,
-					  processData: false,
-					  contentType: false
-					});
-					
-				// Success/Error Logging
-				}).done(function(data){
-					var str = JSON.stringify(data, null, 2);
-					
-					//$('#result').html("Success\n" + str).show()
-				}).fail(function(e){
-					//var errorTxt = JSON.stringify(e, null, 2)
-					//$('#result').html("Error\n" + errorTxt).show()
-				});	
-				return true;
+				alert("Response");
+			   	 if (response.authResponse) {
+			        alert("Auth");
+			         _this.shareToFacebook();
+			       
+			        
+			      } else {
+			        alert('User cancelled login or did not fully authorize.');
+			        return false;
+			      }
+			    }, {scope: 'publish_actions'});
+			    
 			},
+
+
+			facebookShare: function(){
+				
+				
+				var _this = this;
+
+				FB.getLoginStatus(function(response) {
+				  if (response.status === 'connected') {
+				    
+				    _this.shareToFacebook();
+				    
+				  }
+				  else {
+				    _this.facebookLogin();
+				  }
+				});
+			},
+			
+			
+			shareToFacebook : function() {
+					
+					var _this = this;
+					
+					
+			        $.ajax({
+				        url: '/facebook.php?vid=' + _this.vid,
+				        processData: false,
+				        method: 'GET',
+				        contentType : false,
+				        dataType : 'json',
+				        success: function (json) {
+							
+							console.log(json);	
+							
+							alert("Shared");
+									        
+				        }
+				    });
+				    
+				    		
+				
+				
+			},
+					
+			
 			
 			uploadAndTweet : function() {
 				
@@ -568,7 +590,7 @@ aauk.imagesLoaded = false;
 						console.log(json);	
 						sendingNotification.hide();	
 						
-						$("#tweeter").slideUp().after('<p>Thank you for tweeting your Brutal cut!</p><p><a class="button recording-button stop-button">Make a donation</a></p>');
+						$("#tweeter").slideUp().after('<p>Thank you for tweeting your Brutal cut!</p><p><a class="button recording-button download-button ">Make a donation</a></p>');
 						
 								        
 			        }
@@ -577,6 +599,40 @@ aauk.imagesLoaded = false;
 				
 				
 			},
+			
+			
+			
+			uploadAndFB : function() {
+				
+				
+				var sendingNotification = $("#facebookSending");
+				sendingNotification.show();
+				
+				var fd = new FormData($("#facebooker")[0]);
+				
+				
+				$.ajax({
+			        url: '/post-to-facebook.php',
+			        data: fd,
+			        processData: false,
+			        method: 'POST',
+			        contentType : false,
+			        dataType : 'json',
+			        success: function (json) {
+						
+						console.log(json);	
+						sendingNotification.hide();	
+						
+						$("#facebooker").slideUp().after('<p>Thank you for sharing your Brutal cut!</p><p><a class="button recording-button download-button ">Make a donation</a></p>');
+						
+								        
+			        }
+			    });
+
+				
+				
+			},
+			
 			
 					
 			init : function () {
@@ -588,21 +644,20 @@ aauk.imagesLoaded = false;
 					
 					e.preventDefault();
 					
+					_this.vid = $(this).attr("data-videoid");
 					shareType = $(this).attr('data-sharetype');
 					
 					
 					switch(shareType) {
 						case 'facebookShare' :
 							
-							if(_this.shareFacebook($(this)) == true){
-								
-							}
-						
+							window.open("facebook.php?vid=" + $(this).attr('data-videoid'),'newwindow', 'width=600 height=800');						
+							
 							break;
 							
 						case 'TShareOauth':
 						
-							window.open("twitter.php?vid=" + $(this).attr('data-videoID'));	
+							window.open("twitter.php?vid=" + $(this).attr('data-videoid'),'newwindow', 'width=600, height=800');	
 						
 							break;
 					}
@@ -613,6 +668,14 @@ aauk.imagesLoaded = false;
 					e.preventDefault();
 					
 					_this.uploadAndTweet();
+					
+				});
+				
+				$("#fbVideo").on("click",function(e){
+					
+					e.preventDefault();
+					
+					_this.uploadAndFB();
 					
 				});
 				

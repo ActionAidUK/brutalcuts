@@ -12,61 +12,50 @@ ini_set('display_errors',1);
 error_reporting(E_ALL);
 require __DIR__ . '/vendor/autoload.php';
 
-require __DIR__ . '/settings/aa-settings.inc.php';
+require __DIR__ . '/settings/facebook.php';	
 
 
 $time = time();
 
-\Codebird\Codebird::setConsumerKey(TWITTERKEY, TWITTERSECRET); // static, see README
-
-$cb = \Codebird\Codebird::getInstance();
-
-if (! isset($_SESSION['oauth_token'])) {
-  // get the request token
-  $reply = $cb->oauth_requestToken([
-    'oauth_callback' => 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
-  ]);
-
-  // store the token
-  $cb->setToken($reply->oauth_token, $reply->oauth_token_secret);
-  $_SESSION['oauth_token'] = $reply->oauth_token;
-  $_SESSION['oauth_token_secret'] = $reply->oauth_token_secret;
-  $_SESSION['oauth_verify'] = true;
-
-  // redirect to auth website
-  $auth_url = $cb->oauth_authorize();
-  header('Location: ' . $auth_url);
-
-  die();
-
-} elseif (isset($_GET['oauth_verifier']) && isset($_SESSION['oauth_verify'])) {
-  // verify the token
-  $cb->setToken($_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
-  unset($_SESSION['oauth_verify']);
-
-  // get the access token
-  $reply = $cb->oauth_accessToken([
-    'oauth_verifier' => $_GET['oauth_verifier']
-  ]);
-
-  // store the token (which is different from the request token!)
-  $_SESSION['oauth_token'] = $reply->oauth_token;
-  $_SESSION['oauth_token_secret'] = $reply->oauth_token_secret;
-
-  // send to same URL, without oauth GET parameters
-  header('Location: ' . basename(__FILE__));
-
-  die();
-} 
-
-// assign access token on each page load
-$cb->setToken($_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
-
 
 @$vid = $_GET['vid'] ? $_GET['vid'] : $_SESSION['vid'];
 
-$video = 'export/1467716796-output.mp4';
-$poster = 'export/1467716796cover.jpg';
+
+
+$helper = $fb->getRedirectLoginHelper();
+
+
+
+if (isset($_SESSION['facebook_access_token']))
+{
+	try {
+		
+		$fb->get('/me',$_SESSION['facebook_access_token']);
+		
+	} catch( Exception $e ){
+		
+		session_destroy();
+		session_start();
+
+		$_SESSION['vid'] = $vid;
+		
+		$permissions = ['publish_actions']; // optional
+		$loginUrl = $helper->getLoginUrl('https://' . $_SERVER['HTTP_HOST'] . '/facebooklogin-callback.php', $permissions);
+		header( 'Location: ' . $loginUrl );  
+	
+	}
+} else {
+	
+	session_destroy();
+		session_start();
+
+		$_SESSION['vid'] = $vid;
+	$permissions = ['publish_actions']; // optional
+		
+	$loginUrl = $helper->getLoginUrl('https://' . $_SERVER['HTTP_HOST'] . '/facebooklogin-callback.php', $permissions);
+	header( 'Location: ' . $loginUrl ); 
+		
+}
 
 if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vid . 'cover.jpg'))
 {
@@ -104,6 +93,29 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/favicon.png">
 
+   <script>
+	  
+	 
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1199685040062462',
+      cookie: true, // This is important, it's not enabled by default      
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
 </head>
 <body>
 	
@@ -119,19 +131,19 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
     </div>
 		
 	
-	<form id="tweeter" class="sendForm" method="post" name="tweeterform">
+	<form id="facebooker" class="sendForm" method="post" name="facebooker">
 		
 		<p>
-		<textarea rows="12" name="tweetText" id="tweetText" style="width: 100%; height: 200px;">I'm sharing this video</textarea>
+		<textarea rows="12" name="facebookText" id="facebookText" style="width: 100%; height: 200px;">My message to facebook</textarea>
 		</p>
 		
 		<input type="hidden" name="vid" id="vid" value="<?php echo $vid; ?>" />
 		
 		<p>
-		<input type="button" class="recording-button twitter-button" id="tweetVideo" value="Tweet this"/>
+		<input type="button" class="recording-button twitter-button" id="fbVideo" value="Share to facebook"/>
 		</p>
 		
-		<div class="sending" id="tweetSending">
+		<div class="sending" id="facebookSending">
 				<div id="sendspinner">
 					<div class="spinner">
 					  <div class="double-bounce1"></div>

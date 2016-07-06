@@ -18,6 +18,30 @@
     <link rel="stylesheet" href="css/fancybox/jquery.fancybox.css" type="text/css"><!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <script>
+	  
+	 
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1199685040062462',
+      cookie: true, // This is important, it's not enabled by default      
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+    
+    
 </head>
 
 <body>
@@ -39,12 +63,12 @@
                 <div class="upload-area">
                     <div id="finalVideo" style="display: block;">
                         <div align="center" class="embed-responsive embed-responsive-16by9">
-                            <video id="brutalCut" poster="export/1467368809cover.jpg" controls class="embed-responsive-item"><source src="export/1467368809-output.mp4" type="video/mp4">Your browser does not support the video tag.</source></video><source src="export/1467368809-output.mp4" type="video/mp4"></source>
+                            <video id="brutalCut" poster="export/1467739322cover.jpg" controls class="embed-responsive-item"><source src="export/1467739322-output.mp4" type="video/mp4">Your browser does not support the video tag.</source></video><source src="export/1467739322-output.mp4" type="video/mp4"></source>
                         </div>
 
-                        <p><source src="export/1467368809-output.mp4" type="video/mp4"><br>
+                        <p>
                         <br>
-                        <a download="" target="_blank" class="button recording-button download-button " href="export/1467368809-output.mp4">Download</a><a target="_blank" id="shareToTwitter" class="button recording-button twitter-button shareButton" target="_blank" href="twitter.php" data-videoID="" data-sharetype="TShareOauth" data-sharevideo="export/1467368809-output.mp4">Share to twitter</a></source></p>
+                        <a download="" target="_blank" class="button recording-button download-button " href="export/1467739322-output.mp4">Download</a><a target="_blank" id="shareToTwitter" class="button recording-button twitter-button shareButton" target="_blank" href="twitter.php" data-videoID="1467739322" data-sharetype="TShareOauth" data-sharevideo="export/1467739322-output.mp4">Share to twitter</a><a target="_blank" id="shareToFacebook" class="button recording-button twitter-button shareButton" href="facebook.php?vid=1467739322" data-sharetype="facebookShare" data-videoid="1467739322" data-sharevideo="export/1467739322-output.mp4">Share to Facebook</a></p>
                     </div>
                 </div>
 
