@@ -1,30 +1,5 @@
 body {
 	height: auto;
-	background: $aa-red;
-	
-	&.share-window {
-		background: #FFF;
-	}
-	
-}
-
-h1 {
-	@include setAmericanTypewriter();
-}
-
-h2 {
-	color: #FFF;
-	@include setAmericanTypewriter();
-}
-
-p {
-	color: #FFF;
-	font-size: 20px;
-}
-
-
-h3 {
-	color: #FFF;
 }
 
 
@@ -35,9 +10,34 @@ h3 {
 }
 
 .embed-responsive {
+  position: relative;
+  display: block;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
 
-   &.embed-responsive-square {
-    padding-bottom: 100%;
+
+  .embed-responsive-item,
+  iframe,
+  embed,
+  object {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    border: 0;
+  }
+
+  // Modifier class for 16:9 aspect ratio
+  &.embed-responsive-16by9 {
+    padding-bottom: 56.25%;
+  }
+
+  // Modifier class for 4:3 aspect ratio
+  &.embed-responsive-4by3 {
+    padding-bottom: 75%;
   }
 }
 
@@ -69,6 +69,7 @@ h3 {
 	
 	video {
 		background: #eee;
+		border:1px solid #ddd;
 		width: 100%;
 		height: auto;
 		position: relative;
@@ -82,12 +83,6 @@ h3 {
 			
 		}
 	}
-	
-	.red-box-button {
-		margin-left: 5px;
-		margin-right: 5px;
-	}
-	
 }
 
 .recording-button {
@@ -246,124 +241,6 @@ h3 {
 	}
 }
 
-.dropzoneWrapper {
-	width: 100%;
-	position: relative;
-	
-	.dropzone-border {
-		width: 100%;
-		height: 0;
-		padding-bottom: 100%;
-		border: 3px dashed #f8a5a7;
-		border-radius: 16px;
-		
-		&.active {
-			@include fadeBackgroundColor();
-			&:hover {
-				background: darken($aa-red,8%);
-				cursor: pointer;
-			}
-		}
-	}
-	
-	.dropzone-inner {
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
-	}
-	
-	.dropzone-content {
-		text-align: center;
-		padding-left: 50px;
-		padding-right: 50px;
-		
-		@include vertical-align();
-		
-		p, h2 {
-			text-align: center;
-		}
-		
-		
-	}
-	
-	#dropzoneTrigger {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		cursor: pointer;
-	}
-	
-	
-	
-	.dz-preview  {
-		color: #FFF;
-		font-size: 18px;
-	}
-	
-	.dz-image {
-		img {
-			border: 3px solid #FFF;
-			border-radius: 3px;
-		}
-		margin-bottom: 10px;
-	}
-	
-	.dropzone-results {
-		@include clearfix();	
-	}
-	
-	
-	.dz-success-mark, .dz-error-mark {
-		float: left;
-		width: 50%;
-		margin-top: 10px;
-		
-		svg {
-			float: right;
-			margin-right: 5px;
-		}
-	}
-	
-	.dz-error-mark {
-		float: left;
-		width: 50%;
-		margin-top: 10px;
-		
-		
-		
-		svg {
-			float: left;
-			margin-left: 5px;
-		}
-	}
-}
-
-.align-wrapper {
-	margin: 0 auto;
-	
-	&.embed-responsive-16by9 {
-		max-width: 640px;
-	}
-	
-	&.embed-responsive-square {
-		max-width: 480px;
-	}
-}
-
-.sendForm {
-	margin-top: 10px;
-}
-
-textarea {
-	padding: 10px;
-	color: #222;
-	font-size: 16px;
-	border: 1px solid #CCC;
-	border-radius: 3px;
-	
-}
 
 @keyframes fadeAnimation {
   0%   { opacity:0.9; }

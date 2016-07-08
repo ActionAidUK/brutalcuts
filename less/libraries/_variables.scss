@@ -1,3 +1,22 @@
+@font-face{
+font-family:"AmericanTypwrterITCW01- 731025";
+src:url("../fonts/dff8aebe-deee-47a7-8575-b2f39c8473f8.eot?#iefix");
+src:url("../fonts/dff8aebe-deee-47a7-8575-b2f39c8473f8.eot?#iefix") format("eot"),url("../fonts/ff20d16a-e1f3-4814-9254-1cb4c91ff45e.woff2") format("woff2"),url("../fonts/0c0f4d28-4c13-4e84-9a36-e63cd529ae86.woff") format("woff"),url("../fonts/7f26a278-84b3-4587-bf07-c8cdf7e347a9.ttf") format("truetype"),url("../fonts/254ab931-e6d6-4307-9762-5914ded49f13.svg#254ab931-e6d6-4307-9762-5914ded49f13") format("svg");
+}
+@font-face{
+font-family:"AmericanTypwrterITCW01- 731031";
+src:url("../fonts/3c49f7ed-6bef-4cb5-a070-64eeade7c483.eot?#iefix");
+src:url("../fonts/3c49f7ed-6bef-4cb5-a070-64eeade7c483.eot?#iefix") format("eot"),url("../fonts/2b8631a4-c4e6-4b3e-9803-ed806f8791f8.woff2") format("woff2"),url("../fonts/0ff9ff0c-a28f-4d64-9276-fdfe5be1be73.woff") format("woff"),url("../fonts/0091ce09-4c28-4367-98c1-88da189e0999.ttf") format("truetype"),url("../fonts/b414886c-ba69-4fa8-843b-b9bf4e256c68.svg#b414886c-ba69-4fa8-843b-b9bf4e256c68") format("svg");
+}
+@font-face{
+font-family:"AmericanTypwrterITCW01- 731010";
+src:url("../fonts/3f151e9d-b34f-476b-9d6e-15779083f80f.eot?#iefix");
+src:url("../fonts/3f151e9d-b34f-476b-9d6e-15779083f80f.eot?#iefix") format("eot"),url("../fonts/21faea98-813c-4f1b-8789-41f9c8824393.woff2") format("woff2"),url("../fonts/e6d44dab-a04b-4199-8e5b-982c8cea39b6.woff") format("woff"),url("../fonts/3da61d62-d39f-4bbe-978a-dd2feff89180.ttf") format("truetype"),url("../fonts/84a639b4-b415-4952-9945-151693076ef8.svg#84a639b4-b415-4952-9945-151693076ef8") format("svg");
+}
+
+
+
+
 $aa-red:		      	#ed1c24 !default;
 $aa-dark-red: 			#c61a22;
 $aa-blue:				#5467b0; 
@@ -8,3 +27,290 @@ $aa-orange:				#f3901d;
 $aa-pink: 				#ef839f;
 $aa-magenta: 			#e9487f;
 $aa-purple: 			#5467b0;
+
+$aa-warmgrey-light: #ebe8e5;
+
+$gray-darker:            #222 !default; 
+$gray-dark:              #333 !default;   
+$gray:                   #444 !default; 
+$gray-light:             #999 !default;   
+$gray-lighter:           #eee !default; 
+
+$headings-color: $gray-darker;
+$headings-small-color: $gray-darker;
+$text-muted : $gray;
+
+
+$aa-warmgrey9:			#998b7d;
+$aa-warmgrey9-bg: 		lighten($aa-warmgrey9, 40);
+
+
+$twitter-blue: #55ACEE;
+$facebook-blue: #3b5998;
+$googleplus-red: #dd4b39;
+
+//** Background color for `<body>`.
+$body-bg:               #fff !default;
+//** Global text color on `<body>`.
+$text-color:            $gray-dark !default;
+
+//** Global textual link color.
+$link-color:            #006699 !default;
+//** Link hover color set via `darken()` function.
+$link-hover-color:      darken($link-color, 15%) !default;
+
+
+$font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
+//** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+$font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;
+$font-family-base:        $font-family-sans-serif !default;
+
+$font-at: 					'AmericanTypwrterITCW01- 731031', $font-family-sans-serif;
+$font-at-light: 			'AmericanTypwrterITCW01- 731025', $font-family-sans-serif;
+$font-at-bold: 				'AmericanTypwrterITCW01- 731010', $font-family-sans-serif;
+$font-at-rough:				'smithyxt-heavybold', 'AmericanTypwrterITCW01- 731031', $font-family-sans-serif;
+
+$font-size-base:          14px !default;
+$font-size-large:         ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-small:         ceil(($font-size-base * 0.85)) !default; // ~12px
+
+$font-size-h1:            floor(($font-size-base * 2.6)) !default; // ~36px
+$font-size-h2:            floor(($font-size-base * 2.15)) !default; // ~30px
+$font-size-h3:            ceil(($font-size-base * 1.7)) !default; // ~24px
+$font-size-h4:            ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-h5:            $font-size-base !default;
+$font-size-h6:            ceil(($font-size-base * 0.85)) !default; // ~12px
+
+//** Unit-less `line-height` for use in components like buttons.
+$line-height-base:        1.428571429 !default; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+$line-height-computed:    floor(($font-size-base * $line-height-base)) !default; // ~20px
+
+//** By default, this inherits from the `<body>`.
+$headings-font-family:    inherit !default;
+$headings-font-weight:    500 !default;
+$headings-line-height:    1.1 !default;
+$headings-color:          inherit !default;
+
+
+//== Media queries breakpoints
+//
+//## Define the breakpoints at which your layout will change, adapting to different screen sizes.
+
+// Extra small screen / phone
+//** Deprecated `$screen-xs` as of v3.0.1
+$screen-xs:                  480px !default;
+//** Deprecated `$screen-xs-min` as of v3.2.0
+$screen-xs-min:              $screen-xs !default;
+//** Deprecated `$screen-phone` as of v3.0.1
+$screen-phone:               $screen-xs-min !default;
+
+// Small screen / tablet
+//** Deprecated `$screen-sm` as of v3.0.1
+$screen-sm:                  768px !default;
+$screen-sm-min:              $screen-sm !default;
+//** Deprecated `$screen-tablet` as of v3.0.1
+$screen-tablet:              $screen-sm-min !default;
+
+// Medium screen / desktop
+//** Deprecated `$screen-md` as of v3.0.1
+$screen-md:                  992px !default;
+$screen-md-min:              $screen-md !default;
+//** Deprecated `$screen-desktop` as of v3.0.1
+$screen-desktop:             $screen-md-min !default;
+
+// Large screen / wide desktop
+//** Deprecated `$screen-lg` as of v3.0.1
+$screen-lg:                  1200px !default;
+$screen-lg-min:              $screen-lg !default;
+//** Deprecated `$screen-lg-desktop` as of v3.0.1
+$screen-lg-desktop:          $screen-lg-min !default;
+
+// So media queries don't overlap when required, provide a maximum
+$screen-xs-max:              ($screen-sm-min - 1) !default;
+$screen-sm-max:              ($screen-md-min - 1) !default;
+$screen-md-max:              ($screen-lg-min - 1) !default;
+
+//== Grid system
+//
+//## Define your custom responsive grid.
+
+//** Number of columns in the grid.
+$grid-columns:              12 !default;
+//** Padding between columns. Gets divided in half for the left and right.
+$grid-gutter-width:         30px !default;
+// Navbar collapse
+//** Point at which the navbar becomes uncollapsed.
+$grid-float-breakpoint:     $screen-sm-min !default;
+//** Point at which the navbar begins collapsing.
+$grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default;
+
+
+//== Container sizes
+//
+//## Define the maximum width of `.container` for different screen sizes.
+
+// Small screen / tablet
+$container-tablet:             ((98%)) !default;
+//** For `$screen-sm-min` and up.
+$container-sm:                 $container-tablet !default;
+
+// Medium screen / desktop
+$container-desktop:            ((940px + $grid-gutter-width)) !default;
+//** For `$screen-md-min` and up.
+$container-md:                 $container-desktop !default;
+
+// Large screen / wide desktop
+$container-large-desktop:      ((1140px + $grid-gutter-width)) !default;
+//** For `$screen-lg-min` and up.
+$container-lg:                 $container-large-desktop !default;
+
+//== Components
+//
+//## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+
+$padding-base-vertical:     6px !default;
+$padding-base-horizontal:   12px !default;
+
+$padding-large-vertical:    10px !default;
+$padding-large-horizontal:  16px !default;
+
+$padding-small-vertical:    5px !default;
+$padding-small-horizontal:  10px !default;
+
+$padding-xs-vertical:       1px !default;
+$padding-xs-horizontal:     5px !default;
+
+$line-height-large:         1.33 !default;
+$line-height-small:         1.5 !default;
+
+$border-radius-base:        4px !default;
+$border-radius-large:       6px !default;
+$border-radius-small:       3px !default;
+
+//== Form states and alerts
+//
+//## Define colors for form feedback states and, by default, alerts.
+
+$state-success-text:             #3c763d !default;
+$state-success-bg:               #dff0d8 !default;
+$state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
+
+$state-info-text:                #31708f !default;
+$state-info-bg:                  #d9edf7 !default;
+$state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
+
+$state-warning-text:             #8a6d3b !default;
+$state-warning-bg:               #fcf8e3 !default;
+$state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%) !default;
+
+$state-danger-text:              #a94442 !default;
+$state-danger-bg:                #f2dede !default;
+$state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !default;
+
+
+//== Alerts
+//
+//## Define alert colors, border radius, and padding.
+
+$alert-padding:               15px !default;
+$alert-border-radius:         $border-radius-base !default;
+$alert-link-font-weight:      bold !default;
+
+$alert-success-bg:            $state-success-bg !default;
+$alert-success-text:          $state-success-text !default;
+$alert-success-border:        $state-success-border !default;
+
+$alert-info-bg:               $state-info-bg !default;
+$alert-info-text:             $state-info-text !default;
+$alert-info-border:           $state-info-border !default;
+
+$alert-warning-bg:            $state-warning-bg !default;
+$alert-warning-text:          $state-warning-text !default;
+$alert-warning-border:        $state-warning-border !default;
+
+$alert-danger-bg:             $state-danger-bg !default;
+$alert-danger-text:           $state-danger-text !default;
+$alert-danger-border:         $state-danger-border !default;
+
+
+//== Buttons
+//
+//## For each of Bootstrap's buttons, define text, background and border color.
+
+$btn-font-weight:                normal !default;
+
+$btn-default-color:              #333 !default;
+$btn-default-bg:                 #fff !default;
+$btn-default-border:             #ccc !default;
+
+$btn-primary-color:              #fff !default;
+$btn-primary-bg:                 $aa-red !default;
+$btn-primary-border:             darken($aa-red, 5%) !default;
+
+$btn-success-color:              #fff !default;
+$btn-success-bg:                 $aa-green !default;
+$btn-success-border:             darken($btn-success-bg, 5%) !default;
+
+$btn-info-color:                 #fff !default;
+$btn-info-bg:                    $aa-teal !default;
+$btn-info-border:                darken($btn-info-bg, 5%) !default;
+
+$btn-warning-color:              #fff !default;
+$btn-warning-bg:                 $aa-orange !default;
+$btn-warning-border:             darken($btn-warning-bg, 5%) !default;
+
+$btn-danger-color:               #fff !default;
+$btn-danger-bg:                  $aa-red !default;
+$btn-danger-border:              darken($btn-danger-bg, 5%) !default;
+
+$btn-link-disabled-color:        #CCC !default;
+
+
+
+//== Progress bars
+//
+//##
+
+//** Background color of the whole progress component
+$progress-bg:                 #f5f5f5 !default;
+//** Progress bar text color
+$progress-bar-color:          #fff !default;
+
+//** Default progress bar color
+$progress-bar-bg:             $aa-red !default;
+//** Success progress bar color
+$progress-bar-success-bg:     $aa-green !default;
+//** Warning progress bar color
+$progress-bar-warning-bg:     $aa-orange !default;
+//** Danger progress bar color
+$progress-bar-danger-bg:      $aa-red !default;
+//** Info progress bar color
+$progress-bar-info-bg:        $aa-teal !default;
+
+
+
+//== Type
+//
+//##
+
+//** Horizontal offset for forms and lists.
+$component-offset-horizontal: 180px !default;
+//** Text muted color
+$text-muted:                  $gray-light !default;
+//** Abbreviations and acronyms border color
+$abbr-border-color:           $gray-light !default;
+//** Headings small color
+$headings-small-color:        $gray-light !default;
+//** Blockquote small color
+$blockquote-small-color:      $gray-light !default;
+//** Blockquote font size
+$blockquote-font-size:        ($font-size-base * 1.25) !default;
+//** Blockquote border color
+$blockquote-border-color:     $gray-lighter !default;
+//** Page header border color
+$page-header-border-color:    $gray-lighter !default;
+//** Width of horizontal description list titles
+$dl-horizontal-offset:        $component-offset-horizontal !default;
+

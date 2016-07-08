@@ -2,6 +2,8 @@
 
 $time_start = microtime(true);
 
+session_start();
+
 header('Content-Type: application/json');
 ini_set('display_errors',1);
 error_reporting(E_ALL);
@@ -140,7 +142,7 @@ if ($matches)
 				case 'image' :
 				
 				
-					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2.5 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=640:360" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';
+					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:480,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
 				
 					break;
 					
@@ -172,8 +174,12 @@ if ($matches)
 			switch ($mode) {
 				case 'image' :
 
-
-					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2.5 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:360,pad=width=640:height=360:x=' . $padding . ':y=0:color=black" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';
+						if ($aspectRatio < 1)
+						{
+							$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=480:-2,crop=out_h=in_w,crop=in_w" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
+						} else {
+							$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:480,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
+						}
 
 						break;
 					
@@ -196,7 +202,8 @@ if ($matches)
 			switch ($mode) {
 				case 'image' :
 				
-					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2.5 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:360,pad=width=640:height=360:x=' . $padding . ':y=0:color=black" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
+					
+					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:480,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
 				
 					break;
 					
@@ -250,7 +257,9 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 	 
 	
 
-	$insertFile = APP_LOCATION . "files/Child_Random-640x360.mp4";	   
+	$insertFile = APP_LOCATION . "files/brutal-cut-640x360.mp4";
+//	$insertFile = APP_LOCATION . "files/Brutal_Cut_ALPHA-640x360.mp4";   
+	$insertFileSquare = APP_LOCATION . "files/brutal-cut-480x480.mp4";
 
 
 	if (($mode == 'video') || ($mode == 'gif'))
@@ -260,6 +269,9 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 		$videoFormat = $ffprobe->format('tmp/' . $time . 'upload-x264.mp4') // extracts file informations
 		->all();
 	
+		$outputArray['width'] = 640;
+		$outputArray['height'] = 360;
+		$_SESSION['aspectratio'] = '16-9';
 		
 	
 		$splitTime = ($videoFormat['duration'] / 2) > 10 ? 10 : ($videoFormat['duration'] / 2);
@@ -279,7 +291,12 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'part1-x264.mp4 -i ' . $insertFile . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'part2-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'export/' . $time . '-output.mp4 2>&1';
 		
 	} else {
-		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -i ' . $insertFile . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'export/' . $time . '-output.mp4 2>&1';		
+		
+		$outputArray['width'] = 480;
+		$outputArray['height'] = 480;
+		$_SESSION['aspectratio'] = 'square';
+		
+		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -i ' . $insertFileSquare . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'export/' . $time . '-output.mp4 2>&1';		
 	}
 	
 

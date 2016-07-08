@@ -11,6 +11,19 @@ aauk.imagesLoaded = false;
 
 
 (function( $ ) {
+	
+
+	if (typeof aauk.checkFileAPI === "undefined") { aauk.checkFileAPI = function() {
+			
+			if (window.File && window.FileList && window.FileReader) {
+				return true;
+			} else {
+				return false;
+			}
+			
+	};}
+			
+	
 	if (typeof aauk.readQueryString === "undefined") { aauk.readQueryString = {
 	 	
 
@@ -44,7 +57,11 @@ aauk.imagesLoaded = false;
 		if (typeof el.ongesturestart === "function")
 		{
 			this.isTouchDevice = true;	
-		}		
+			return true;
+		} else {
+			return false;
+		}
+	 
 	};}
 	
 	
@@ -352,13 +369,82 @@ aauk.imagesLoaded = false;
 		fileInput : {},
 		fileInfo : {},
 		theForm : {},
+		theDropZone : {},
+		theDropZoneTrigger : {},
+		theSubmitButton : {},
+		dropzoneText : {},
+		dropzoneResults : {},
 		
 		init : function () {
 			
 			var _this = this;
 			_this.fileInput = $("#uploadFile");
 			_this.theForm = $("#videoUploadForm");
-		
+			_this.theDropZone = $("#dropzone");
+			_this.theSubmitButton = $("#submitButton");
+			_this.theDropZoneTrigger = $("#dropzoneTrigger");
+			_this.dropzoneText = $("#dropzone-text");
+			_this.dropzoneResults = $("#dropzone-results");
+			
+			
+				
+			_this.theDropZoneTrigger.dropzone({ 
+				url: "/ajax-upload.php",
+				maxFilesize: 64,
+				paramName: 'video-blob',
+				acceptedFiles: 'image/*,video/*',
+				
+				previewsContainer : "#dropzone-results",
+				
+				
+				init : function() {
+					_this.fileInput.hide();
+					_this.theSubmitButton.hide();
+					_this.theDropZone.addClass('active');
+					_this.theDropZoneTrigger.css('z-index',100);
+					_this.dropzoneResults.hide();
+					
+					if (aauk.isTouchDeviceDetect())
+					{
+						$("#bcInstructions").text('To get started, click here to upload an image or video.');
+					}
+					
+					
+					this.on("addedfile", function(file) { 
+						
+						console.log("added");
+						_this.dropzoneText.fadeOut(function(){
+							
+							_this.dropzoneResults.fadeIn();
+						});	
+						
+						_this.theDropZone.removeClass('active');
+						
+					});
+					
+					this.on("removedfile", function(file) { 
+						
+						console.log("removed");
+						_this.dropzoneResults.fadeOut(function(){
+							
+							_this.dropzoneText.fadeIn();
+						})	
+						
+						_this.theDropZone.addClass('active');
+					});
+					
+					
+					this.on("success", function(file,response) { 
+						
+						$("#uploadRow").fadeOut(function() {
+							_this.displayVideo(response);
+						});
+					});
+					
+				}
+				
+			});
+
 			_this.theForm.on("submit", function(e) {
 
 				e.preventDefault();
@@ -410,16 +496,23 @@ aauk.imagesLoaded = false;
 		
 		displayVideo : function (json)
 		{
-			
+			var wrapperClass;
 			console.log(json);
 			$("#submit-wrap-upload").show();
 			$("#spinner-upload").hide();
 			$("#getMediaCapture").hide();			
 			$("#videoUploadForm").hide();
+			
+			if (json.width == '640')
+			{
+				wrapperClass = 'embed-responsive-16by9';
+			} else {
+				wrapperClass = 'embed-responsive-square';
+			}
 			        
-			$("#finalVideo").html('<div align="center" class="embed-responsive embed-responsive-16by9" ><video id="brutalCut"  autoplay poster="' + json.poster + '" controls class="embed-responsive-item"><source src="' + json.url + '" type="video/mp4">Your browser does not support the video tag.</video></div><p><br/><br/><a download target="_blank" class="button recording-button download-button" href="' + json.url + '">Download</a><a target="_blank" id="shareToTwitter" class="button recording-button twitter-button shareButton" href="twitter.php?vid=' + json.id + '" data-sharetype="TShareOauth" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '">Share to twitter</a><a target="_blank" id="shareToFacebook" class="button recording-button twitter-button shareButton" href="facebook.php?vid=' + json.id + '" data-sharetype="facebookShare" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '">Share to Facebook</a></p>');
+			$("#finalVideo").html('<div class="align-wrapper ' + wrapperClass + '"><div align="center" class="embed-responsive ' + wrapperClass + '" ><video id="brutalCut"  autoplay poster="' + json.poster + '" controls class="embed-responsive-item"><source src="' + json.url + '" type="video/mp4">Your browser does not support the video tag.</video></div></div><p><br/><br/><a download target="_blank" class="red-box-button inline-button file-download-button" href="' + json.url + '"><span class="download-icon"></span>Download</a><a target="_blank" id="shareToTwitter" class="red-box-button twitter inline-button" href="twitter.php?vid=' + json.id + '" data-sharetype="TShareOauth" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to twitter</a><a target="_blank" id="shareToFacebook" class="red-box-button facebook inline-button" href="facebook.php?vid=' + json.id + '" data-sharetype="facebookShare" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to Facebook</a></p>');
 				        
-			$("#finalVideo").show();
+			$("#finalVideo").fadeIn();
 			
 			
 			$("#filesize").html(json.command);
@@ -457,7 +550,7 @@ aauk.imagesLoaded = false;
 				}
 				
 				//check size
-				if (_this.fileInfo.size > 16777216)
+				if (_this.fileInfo.size > 64777216)
 				{
 					errors.push("This file is too big! Please upload a shorter video...");
 				}
@@ -590,7 +683,7 @@ aauk.imagesLoaded = false;
 						console.log(json);	
 						sendingNotification.hide();	
 						
-						$("#tweeter").slideUp().after('<p>Thank you for tweeting your Brutal cut!</p><p><a class="button recording-button download-button ">Make a donation</a></p>');
+						$("#tweeter").slideUp().after('<h2>Thank you for tweeting your Brutal cut!</h2><p><a class="red-box-button" href="#">Make a donation</a></p>');
 						
 								        
 			        }
@@ -623,7 +716,7 @@ aauk.imagesLoaded = false;
 						console.log(json);	
 						sendingNotification.hide();	
 						
-						$("#facebooker").slideUp().after('<p>Thank you for sharing your Brutal cut!</p><p><a class="button recording-button download-button ">Make a donation</a></p>');
+						$("#facebooker").slideUp().after('<h2>Thank you for sharing your Brutal cut!</h2><p><a class="red-box-button" href="#">Make a donation</a></p>');
 						
 								        
 			        }
@@ -651,13 +744,13 @@ aauk.imagesLoaded = false;
 					switch(shareType) {
 						case 'facebookShare' :
 							
-							window.open("facebook.php?vid=" + $(this).attr('data-videoid'),'newwindow', 'width=600 height=800');						
+							window.open("facebook.php?vid=" + $(this).attr('data-videoid'),'_blank', 'width=600,height=800');						
 							
 							break;
 							
 						case 'TShareOauth':
 						
-							window.open("twitter.php?vid=" + $(this).attr('data-videoid'),'newwindow', 'width=600, height=800');	
+							window.open("twitter.php?vid=" + $(this).attr('data-videoid'),'_blank', 'width=600,height=800');	
 						
 							break;
 					}
@@ -692,9 +785,7 @@ aauk.imagesLoaded = false;
 
 
 jQuery(document).ready(function($) {
-	
-	
-	aauk.isTouchDeviceDetect();
+
 
 	
 	//	if (aauk.hasGetUserMedia()){
@@ -702,7 +793,11 @@ jQuery(document).ready(function($) {
 			
 			
 	//	} else {
-			 aauk.videoUploader.init();
+		if ($("#videoUploadForm").length > 0)
+		{
+			aauk.videoUploader.init();
+
+		}
 	//	}
 
 		aauk.videoShare.init();

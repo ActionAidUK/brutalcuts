@@ -1,0 +1,74 @@
+//Typography mixins..
+
+
+@mixin setAmericanTypewriter ($weight : regular, $letter-spacing : -1px) {
+	
+	@include setAntiAliased();
+	font-weight: normal;
+	
+	@if $weight == light {
+		
+		font-family: $font-at-light;
+		
+	} @else if $weight == bold {
+   
+		font-family: $font-at-bold;
+		
+	} @else if $weight == rough {
+   
+		font-family: $font-at-rough;
+		
+	} @else {
+		
+		font-family: $font-at;
+		
+	}
+	
+	letter-spacing: $letter-spacing;
+}
+
+
+@mixin setAntiAliased() {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
+@mixin fadeBackgroundColor() {
+	-webkit-transition: background-color 150ms ease-in;
+    -moz-transition: background-color 150ms ease-in;
+    -o-transition: background-color 150ms ease-in;
+    -ms-transition: background-color 150ms ease-in;
+    transition: background-color 150ms ease-in;
+}
+
+@mixin fadeOpacity() {
+	-webkit-transition: visibility 0s linear 100ms,opacity 100ms ease-in;
+    -moz-transition:  visibility 0s linear 100ms,opacity 100ms ease-in;
+    -o-transition:  visibility 0s linear 100ms,opacity 100ms ease-in;
+    -ms-transition:  visibility 0s linear 100ms,opacity 100ms ease-in;
+    transition:  visibility 0s linear 100ms,opacity 100ms ease-in;
+}
+
+
+@mixin vertical-align() {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+@mixin make-container() {
+  @include container-fixed();
+
+  @media (min-width: $screen-sm-min) {
+    width: $container-sm;
+  }
+  @media (min-width: $screen-md-min) {
+    width: $container-md;
+  }
+  @media (min-width: $screen-lg-min) {
+    width: $container-lg;
+  }
+}

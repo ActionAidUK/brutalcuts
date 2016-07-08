@@ -65,6 +65,14 @@ $cb->setToken($_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
 
 @$vid = $_GET['vid'] ? $_GET['vid'] : $_SESSION['vid'];
 
+if ($_SESSION['aspectratio'] == 'square')
+{
+	$class="embed-responsive-square";
+} else {
+	$class="embed-responsive-16by9";	
+}
+
+
 $video = 'export/1467716796-output.mp4';
 $poster = 'export/1467716796cover.jpg';
 
@@ -91,12 +99,9 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/fancybox/jquery.fancybox.css">
 
@@ -105,18 +110,25 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
   <link rel="icon" type="image/png" href="images/favicon.png">
 
 </head>
-<body>
+<body class="share-window">
 	
-	<div style="width: 640px;">
 	
-	<div align="center" class="embed-responsive embed-responsive-16by9">
+	
+	<div class="container">
+		
+		<div class="row">
+			
+			<div class="col-xs-12 col-sm-9 col-sm-offset-2 col-md-6 col-md-offset-3">
+	<h1>Share your video to Twitter</h1>
+	
+	<div align="center" class="embed-responsive <?php echo $class; ?>">
          <video id="brutalCut" poster="<?php echo $poster; ?>" controls class="embed-responsive-item">
 	         <source src="<?php echo $video; ?>" type="video/mp4">Your browser does not support the video tag.</source>
 
 	     </video>
     </div>
     
-    </div>
+   
 		
 	
 	<form id="tweeter" class="sendForm" method="post" name="tweeterform">
@@ -128,7 +140,8 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 		<input type="hidden" name="vid" id="vid" value="<?php echo $vid; ?>" />
 		
 		<p>
-		<input type="button" class="recording-button twitter-button" id="tweetVideo" value="Tweet this"/>
+		<button type="submit" class="red-box-button twitter" id="tweetVideo"><span class="social-logo"></span>Tweet this</button>
+			
 		</p>
 		
 		<div class="sending" id="tweetSending">
@@ -142,6 +155,10 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 		</div>
 		
 	</form>
+	
+	</div>
+	</div>
+	</div>
 	
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/modernizr-custom.min.js"></script>

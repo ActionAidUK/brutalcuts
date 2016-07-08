@@ -1,0 +1,230 @@
+
+button.red-box-button, button.white-box-button, button.black-box-button, button.grey-box-button, .outline-box-button {
+	border: none;
+}
+
+
+.secondary-button {
+	background-color: #999;
+	padding: 10px 60px 10px 10px;
+	font-size: 16px;
+	margin-top: 25px;	
+	display: block;
+	background-image: url('../images/thin-arrow-white.png');
+	background-position: right center;
+	background-repeat: no-repeat;
+	background-size: 17px;
+	-ms-behavior: url(/polyfill/backgroundsize.min.htc);
+
+	
+	@media (min-width: $screen-sm-min) {
+		padding: 15px 40px 15px 15px;
+		font-size: 18px;
+		margin-top: 40px;	
+		background-size: 27px;
+	}
+	@include setAmericanTypewriter();
+	
+	&:link, &:visited {
+		color: #FFF;
+	}
+
+	line-height: 1.3;
+	@include fadeBackgroundColor();
+	
+	
+	&:hover {
+		text-decoration: none;
+		background-color: darken(#666,10%);
+	}
+	
+	&.inline-button {
+		display: inline-block;
+		margin-top: 0;
+	}
+}
+
+
+
+.red-box-button, .white-box-button, .black-box-button, .grey-box-button, .outline-box-button, .verylargetext a {
+	padding: 10px 60px 10px 10px;
+	font-size: 16px;
+	margin-top: 25px;	
+	display: block;
+	border-radius: 4px;
+	background-image: url('../images/thin-arrow-white.png');
+	background-image: none, url('../images/thin-arrow-white.svg');
+	background-position: right center;
+	background-repeat: no-repeat;
+	background-size: 17px 21px;
+	-ms-behavior: url(/polyfill/backgroundsize.min.htc);
+	
+		padding: 20px 60px 20px 20px;
+		font-size: 20px;
+		margin-top: 50px;
+		background-size: 34px 42px;
+	
+	
+	@include setAmericanTypewriter();
+	@include fadeBackgroundColor();
+	
+	line-height: 1.3;
+	
+	
+	&.inline-button {
+		display: inline-block;
+		margin-top: 0;
+	}
+	
+	
+}
+
+
+.red-box-button, .verylargetext a {
+	background-color: $aa-red;
+	color: #FFF;
+	&:link, &:visited {
+		color: #FFF;
+	}
+	&:hover {
+		text-decoration: none;
+		background-color: darken($aa-red,10%);
+		color: #fff;
+	}
+	
+	.social-logo {
+		display: block;
+		width: 45px;
+		height: 45px;
+		position: absolute;
+		left: 10px;
+		top: 50%;
+		margin-top: -22.5px;
+		-ms-behavior: url(/polyfill/backgroundsize.min.htc);
+	}
+	
+	&.twitter {
+		background-color: $twitter-blue;
+		position: relative;
+		padding-left: 67px;
+		
+		&:hover {
+			background-color: darken($twitter-blue, 10%);
+			color: #fff;
+		}
+		
+		.social-logo {
+			background-image: url(../images/social.png) !important;
+			background-image: none,url(../images/social.svg) !important;
+			background-size: 45px 270px;
+			background-position: left -180px;
+		}
+	}
+	
+	&.facebook {
+		background-color: $facebook-blue;
+		position: relative;
+		padding-left: 67px;
+		
+		&:hover {
+			background-color: darken($facebook-blue, 10%);
+			color: #fff;
+		}
+		
+		.social-logo {
+			background-image: url(../images/social.png) !important;
+			background-image: none,url(../images/social.svg) !important;
+			background-size: 45px 270px;
+			background-position: left -225px;
+			left: 10px;
+		}
+	}
+	
+	&.download-button {
+		background-color: $aa-blue;
+		background-image: url(../images/download-png.png) !important;
+		background-image: url(../images/download-svg.svg) !important;
+	    background-size: 30px 27px;
+	    background-position-x: 10%;
+	    background-position: 20px;
+	    padding-left: 69px;
+	    padding-right: 10px;
+	    
+	    margin-bottom: 20px;
+	    
+	    @media(min-width: $screen-sm-min){
+		    margin-bottom: 0;
+	    }	    
+	    
+	    
+	}
+	
+}
+
+.file-download-button {
+	background-size: 30px 30px;
+	padding: 10px 10px 10px 50px;
+	background: $aa-dark-red;
+	background-color: transparent;
+	border: 1px solid #FFF;
+	position: relative;
+	
+	.download-icon {
+		display: block;
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		left: 10px;
+		top: 50%;
+		margin-top: -20px;
+		-ms-behavior: url(/polyfill/backgroundsize.min.htc);
+		background-image: url(../images/download-icon.png) !important;
+		background-image: none,url(../images/download-icon.svg) !important;
+		background-size: cover;
+	}
+	
+	@media (min-width: $screen-sm-min) {
+		padding: 20px 20px 20px 60px;
+		background-size: 40px 40px;
+	
+	}
+	
+}
+
+
+
+.outline-box-button {
+	background-color: transparent;
+	color: #FFF;
+	&:link, &:visited {
+		color: #FFF;
+	}
+	
+	&:hover {
+		text-decoration: none;
+		background-color: darken($aa-red,10%);
+		color: #fff;
+	}
+	
+	border: 1px solid #FFF;
+	
+	&.red {
+		
+		border: 1px solid $aa-red;
+		background-image: url('../images/thin-arrow.png');
+		background-image: none, url('../images/thin-arrow.svg');
+		color: $aa-red;
+		
+		&:link, &:visited {
+		color: $aa-red;
+		}
+		
+		&:hover {
+			text-decoration: none;
+			background-color: #EEE;
+			color: $aa-red;
+		}
+	}
+
+}
+
