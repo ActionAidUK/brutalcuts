@@ -10,6 +10,11 @@ body {
 
 h1 {
 	@include setAmericanTypewriter();
+	
+	&.popup-title {
+		color: $aa-red;
+		font-size: 26px;
+	}
 }
 
 h2 {
@@ -304,8 +309,7 @@ h3 {
 	
 	.dz-image {
 		img {
-			border: 3px solid #FFF;
-			border-radius: 3px;
+			
 		}
 		margin-bottom: 10px;
 	}
@@ -316,27 +320,46 @@ h3 {
 	
 	
 	.dz-success-mark, .dz-error-mark {
-		float: left;
-		width: 50%;
-		margin-top: 10px;
-		
-		svg {
-			float: right;
-			margin-right: 5px;
-		}
+		display: none;
 	}
 	
-	.dz-error-mark {
-		float: left;
-		width: 50%;
-		margin-top: 10px;
-		
-		
-		
-		svg {
-			float: left;
-			margin-left: 5px;
-		}
+
+	
+	.dz-progress{
+		width: 100%;
+	    border: 2px solid #FFF;
+	    border-color: rgba(255,255,255,0.6);
+	    height: 30px;
+	    padding: 1px;
+	    margin: 10px 0;
+	    border-radius: 20px;
+	    position: relative;
+	}
+	
+	.dz-upload {
+		width: 0%;
+		background: #FFF;
+		background: rgba(255,255,255,0.6);
+		height: 24px;
+		display: block;
+		border-radius: 20px;
+		position: relative;
+		z-index: 1;
+	}
+	
+	.dz-upload-status {
+		width: 100%;
+		height: 24px;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width:100%;
+		color: #FFF;
+		text-align: center;
+		font-size: 15px;
+		line-height: 24px;
+		text-shadow: 0 0 1px rgb(237,29,36);
+		z-index: 3;
 	}
 }
 
@@ -360,8 +383,50 @@ textarea {
 	padding: 10px;
 	color: #222;
 	font-size: 16px;
-	border: 1px solid #CCC;
+	border: 1px solid #e1e8ed;
 	border-radius: 3px;
+}
+
+.share-body {
+	margin-top: 40px;
+}
+
+.share-video {
+	border: 1px solid #e1e8ed;
+	border-radius: 3px;
+	margin-top: 20px;
+}
+
+.shareWrapper {
+	margin: 0 auto;
+	width:100%;
+	
+	.twitter, .facebook, .file-download-button {
+		width: 100%;
+		margin-bottom: 10px;
+	}
+	
+	@media (min-width: 805px) {
+
+		width: 800px;
+		
+		&.no-twitter {
+			width: 490px;
+		}
+		
+		.file-download-button {
+			width: 180px;
+			margin-right: 10px;
+		}
+		
+		.twitter, .facebook {
+			width: 300px;
+		}
+		
+		.twitter {
+			margin-right: 10px;
+		}
+	}
 	
 }
 

@@ -271,6 +271,7 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 	
 		$outputArray['width'] = 640;
 		$outputArray['height'] = 360;
+		$outputArray['aspectratio'] = '16-9';
 		$_SESSION['aspectratio'] = '16-9';
 		
 	
@@ -294,6 +295,7 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 		
 		$outputArray['width'] = 480;
 		$outputArray['height'] = 480;
+		$outputArray['aspectratio'] = 'square';
 		$_SESSION['aspectratio'] = 'square';
 		
 		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -i ' . $insertFileSquare . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'export/' . $time . '-output.mp4 2>&1';		
@@ -314,18 +316,23 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 	}
 	
 	
+	//Check final size and duration:
+	
+
+	$videoFormaFinal = $ffprobe->format('export/' . $time . '-output.mp4')->all();
+	
+	
 	
 	$time_end = microtime(true);
 
 	$outputArray['url'] = 'export/' . $time . '-output.mp4';
 	$outputArray['type'] = 'video/mp4';
-	$outputArray['width'] = $dimensions->getWidth();
-	$outputArray['height'] = $dimensions->getHeight();
-	$outputArray['aspectratio'] = $dimensions->getRatio()->getValue();
 	$outputArray['poster'] = 'export/' . $time . 'cover.jpg';
-	$outputArray['command'] = $concatComand;
+//	$outputArray['command'] = $concatComand;
 	$outputArray['output'] = $output;
 	$outputArray['id'] = $time;
+	$outputArray['duration'] = @$videoFormaFinal['duration'];
+	$outputArray['size'] = @$videoFormaFinal['size'];
 	$outputArray['time'] = $time_end - $time_start;
 
 	$_SESSION['vid'] = $time;

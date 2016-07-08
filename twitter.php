@@ -89,7 +89,7 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Brutal Cuts cat inserter</title>
+  <title>Share your #BrutalCut to Twitter</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -107,58 +107,119 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="images/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="images/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="images/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="images/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="images/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="images/favicon-128.png" sizes="128x128" />
+<meta name="application-name" content="&nbsp;"/>
+<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileImage" content="images/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="images/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="images/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="images/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="images/mstile-310x310.png" />
+
 
 </head>
-<body class="share-window">
+<body class="share-window" style="background: #000">
 	
+<div class="share-wrap" style="background: #f5f8fa">	
+	<nav class="navbar navbar-default main-site-navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-logo" href="/" title="Home" rel="Home"><img src="images/actionaid-logo.svg" class="actionaid-logo img-responsive" alt="ActionAid"></a>
+                </div>
+
+                <div class="action-arrow"><img src="images/brandarrow.svg" alt="" height="40"></div>
+            </div>
+        </nav>
 	
-	
+<div class="share-body">	
 	<div class="container">
 		
 		<div class="row">
 			
-			<div class="col-xs-12 col-sm-9 col-sm-offset-2 col-md-6 col-md-offset-3">
-	<h1>Share your video to Twitter</h1>
-	
-	<div align="center" class="embed-responsive <?php echo $class; ?>">
-         <video id="brutalCut" poster="<?php echo $poster; ?>" controls class="embed-responsive-item">
-	         <source src="<?php echo $video; ?>" type="video/mp4">Your browser does not support the video tag.</source>
-
-	     </video>
-    </div>
-    
-   
-		
-	
-	<form id="tweeter" class="sendForm" method="post" name="tweeterform">
-		
-		<p>
-		<textarea rows="12" name="tweetText" id="tweetText" style="width: 100%; height: 200px;">I'm sharing this video</textarea>
-		</p>
-		
-		<input type="hidden" name="vid" id="vid" value="<?php echo $vid; ?>" />
-		
-		<p>
-		<button type="submit" class="red-box-button twitter" id="tweetVideo"><span class="social-logo"></span>Tweet this</button>
-			
-		</p>
-		
-		<div class="sending" id="tweetSending">
-				<div id="sendspinner">
-					<div class="spinner">
-					  <div class="double-bounce1"></div>
-					  <div class="double-bounce2"></div>
-					</div>
-				</div>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-offset-3 col-md-6">
+				<h1 class="popup-title">Your tweet:</h1>
 				
+						    
+			   
+					
+				
+				<form id="tweeter" class="sendForm" method="post" name="tweeterform">
+					
+					<textarea rows="12" name="tweetText" id="tweetText" style="width: 100%; height: 200px;">I'm sharing this video</textarea>
+					
+					<input type="hidden" name="vid" id="vid" value="<?php echo $vid; ?>" />
+					
+					<button type="submit" class="red-box-button twitter" style="margin-top :20px;" id="tweetVideo"><span class="social-logo"></span>Tweet this video</button>
+					
+					
+					<div align="center" class="share-video embed-responsive <?php echo $class; ?>">
+			         <video id="brutalCut" poster="<?php echo $poster; ?>" controls class="embed-responsive-item">
+				         <source src="<?php echo $video; ?>" type="video/mp4">Your browser does not support the video tag.</source>
+			
+				     </video>
+			    	</div>
+					
+					
+					<p>
+					
+						
+					</p>
+					
+					<div class="sending" id="tweetSending">
+							<div id="sendspinner">
+								<div class="spinner">
+								  <div class="double-bounce1"></div>
+								  <div class="double-bounce2"></div>
+								</div>
+							</div>
+							
+					</div>
+					
+				</form>
+	
 		</div>
 		
-	</form>
-	
+		
 	</div>
 	</div>
-	</div>
+</div>
+</div>
+<div class="wrapper footer-dark-wrapper">
+        <footer class="container">
+	        
+	        
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <img class="footer-logo" width="240" src="/images/actionaid-logo.svg" alt="ActionAid. Changing lives. For good.">
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    <p class="registered-charity">© 2016. ActionAid is a charitable company limited by guarantee and registered in England and Wales (company number 01295174). Our England and Wales charity number is 274467, and our Scottish charity number is SC045476.<br>Our registered office is 33-39, Bowling Green Lane, London EC1R 0BJ.</p>                    
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <div class="col-xs-12">
+                    <p class="ts-and-cs"><a target="_blank" href="https://www.actionaid.org.uk/about-us/actionaid-respects-your-privacy">Privacy policy</a></p>
+                </div>
+            </div>
+      
+        </footer>
+
+        
+    </div>
 	
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/modernizr-custom.min.js"></script>
@@ -166,7 +227,6 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
     <script src="js/js-fileupload/vendor/jquery.ui.widget.js"></script>
 	<script src="js/js-fileupload/jquery.iframe-transport.js"></script>
 <script src="js/js-fileupload/jquery.fileupload.js"></script>
-    <script src="js/fancybox/jquery.fancybox.pack.js"></script>
 	<script src="js/webrtc/adapter.js"></script>
   <script src="js-source/brutalcuts.js"></script
 	

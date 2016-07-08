@@ -374,10 +374,16 @@ aauk.imagesLoaded = false;
 		theSubmitButton : {},
 		dropzoneText : {},
 		dropzoneResults : {},
+		updateBar : {},
+		uploadStatus : {},
+		uploadDots : {},
+		uploadDotCount : 1,
 		
 		init : function () {
 			
 			var _this = this;
+			var dotString = '';
+			var x = 0;
 			_this.fileInput = $("#uploadFile");
 			_this.theForm = $("#videoUploadForm");
 			_this.theDropZone = $("#dropzone");
@@ -394,6 +400,29 @@ aauk.imagesLoaded = false;
 				paramName: 'video-blob',
 				acceptedFiles: 'image/*,video/*',
 				
+				uploadprogress: function(file, progress, bytesSent) {
+
+					dotString = '';
+					
+					
+				    _this.updateBar.width(progress + '%');
+				    
+				   if (progress >= 100)
+				   {
+					   console.log('complete');
+					   _this.uploadStatus.text("Processing");
+					   
+				   }
+				    
+				 },
+				 
+				 complete: function(file) {
+
+					
+				   
+				    
+				 },
+				
 				previewsContainer : "#dropzone-results",
 				
 				
@@ -404,6 +433,8 @@ aauk.imagesLoaded = false;
 					_this.theDropZoneTrigger.css('z-index',100);
 					_this.dropzoneResults.hide();
 					
+					
+					
 					if (aauk.isTouchDeviceDetect())
 					{
 						$("#bcInstructions").text('To get started, click here to upload an image or video.');
@@ -412,8 +443,13 @@ aauk.imagesLoaded = false;
 					
 					this.on("addedfile", function(file) { 
 						
-						console.log("added");
-						_this.dropzoneText.fadeOut(function(){
+						_this.updateBar = $(".dz-upload");
+						
+						$('.dz-progress').append('<div id="dz-upload-status" class="dz-upload-status"><span id="upload-stage">Uploading</span><span id="upload-dots">...</div></div>');
+						
+						_this.uploadStatus = $("#upload-stage");
+						_this.uploadDots = $("#upload-dots");
+						_this.dropzoneText.fadeOut('fast',function(){
 							
 							_this.dropzoneResults.fadeIn();
 						});	
@@ -424,7 +460,7 @@ aauk.imagesLoaded = false;
 					
 					this.on("removedfile", function(file) { 
 						
-						console.log("removed");
+					//	console.log("removed");
 						_this.dropzoneResults.fadeOut(function(){
 							
 							_this.dropzoneText.fadeIn();
@@ -433,12 +469,16 @@ aauk.imagesLoaded = false;
 						_this.theDropZone.addClass('active');
 					});
 					
+
+					
 					
 					this.on("success", function(file,response) { 
 						
 						$("#uploadRow").fadeOut(function() {
 							_this.displayVideo(response);
 						});
+						
+						
 					});
 					
 				}
@@ -510,12 +550,21 @@ aauk.imagesLoaded = false;
 				wrapperClass = 'embed-responsive-square';
 			}
 			        
-			$("#finalVideo").html('<div class="align-wrapper ' + wrapperClass + '"><div align="center" class="embed-responsive ' + wrapperClass + '" ><video id="brutalCut"  autoplay poster="' + json.poster + '" controls class="embed-responsive-item"><source src="' + json.url + '" type="video/mp4">Your browser does not support the video tag.</video></div></div><p><br/><br/><a download target="_blank" class="red-box-button inline-button file-download-button" href="' + json.url + '"><span class="download-icon"></span>Download</a><a target="_blank" id="shareToTwitter" class="red-box-button twitter inline-button" href="twitter.php?vid=' + json.id + '" data-sharetype="TShareOauth" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to twitter</a><a target="_blank" id="shareToFacebook" class="red-box-button facebook inline-button" href="facebook.php?vid=' + json.id + '" data-sharetype="facebookShare" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to Facebook</a></p>');
+			$("#finalVideo").html('<div class="align-wrapper ' + wrapperClass + '"><div align="center" class="embed-responsive ' + wrapperClass + '" ><video id="brutalCut"  autoplay poster="' + json.poster + '" controls class="embed-responsive-item"><source src="' + json.url + '" type="video/mp4">Your browser does not support the video tag.</video></div></div>');
+			$("#shareContainer").html('<p><a download target="_blank" class="red-box-button inline-button file-download-button" href="' + json.url + '"><span class="download-icon"></span>Download</a><a target="_blank" id="shareToTwitter" class="red-box-button twitter inline-button" href="twitter.php?vid=' + json.id + '" data-sharetype="TShareOauth" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to twitter</a><a target="_blank" id="shareToFacebook" class="red-box-button facebook inline-button" href="facebook.php?vid=' + json.id + '" data-sharetype="facebookShare" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to Facebook</a></p>');
+			//Twitter caon only handle <15Mb and < 30secs...
+			if ((Number(json.duration) > 29.99) || (Number(json.size) > 15728640))
+			{	
+				$("#shareToTwitter").hide();
+				
+				$('.shareWrapper').addClass('no-twitter');
+				
+			}
+			
 				        
 			$("#finalVideo").fadeIn();
 			
-			
-			$("#filesize").html(json.command);
+		
 			
 		},
 		

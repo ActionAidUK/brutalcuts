@@ -162,8 +162,6 @@ button.red-box-button, button.white-box-button, button.black-box-button, button.
 }
 
 .file-download-button {
-	background-size: 30px 30px;
-	padding: 10px 10px 10px 50px;
 	background: $aa-dark-red;
 	background-color: transparent;
 	border: 1px solid #FFF;
@@ -183,11 +181,8 @@ button.red-box-button, button.white-box-button, button.black-box-button, button.
 		background-size: cover;
 	}
 	
-	@media (min-width: $screen-sm-min) {
 		padding: 20px 20px 20px 60px;
-		background-size: 40px 40px;
 	
-	}
 	
 }
 
@@ -227,4 +222,160 @@ button.red-box-button, button.white-box-button, button.black-box-button, button.
 	}
 
 }
+
+
+
+.main-site-navigation {	
+	background: $aa-red;
+	border: none;
+	border-radius: 0;
+	height: 70px;
+	@media (min-width: $screen-sm-min) {
+	height: 94px;	
+	}
+	
+	@include clearfix;
+	margin-bottom: 0;
+	z-index: 4;
+	
+	.actionaid-logo {
+		width: 160px;
+		margin: 15px 0 0 0;
+
+		@media (min-width: $screen-sm-min) {
+			margin-left: 0;
+			margin-top: 25px;
+			width: 200px;
+		}
+		
+		@media (min-width: $screen-md-min) {
+			margin-top: 20px;
+		}
+		
+		a:link, a:visited, a:hover, a:active {
+			color: #FFF;
+		}
+	}
+	
+	.container {
+		position: relative;
+	}
+	
+	.action-arrow {
+		position: absolute;
+		left: 25px;
+		top: 70px;
+		z-index: 20;
+		
+		
+		img {
+			height: 28px;
+		}
+		
+		
+		@media (min-width: $screen-sm-min) {
+			left: 28px;
+			top: 94px;
+			img {
+				height: 44px;
+			}
+
+		}
+		
+		
+		
+	}
+	
+	.navbar-header {
+		button.navbar-toggle {
+			font-family: $font-at;
+			color: #FFF;
+			border-color: #FFF;
+			margin: 16px 0 0 0;
+			
+			&:hover, &:focus {
+				background: darken($aa-red,8%);
+			}
+		}
+		
+		z-index: 22;
+		position: relative;
+		margin: 0;
+		float: left;
+		width: 100%;
+		
+		@media (min-width: $screen-sm-min) {
+					
+			width: 21%;
+			padding: 0;
+		}
+		
+		@media (min-width: $screen-md-min) {
+			width: 25%;
+		}
+		
+	}
+	
+	.navigation-wrapper {
+		@include make-sm-column(9);
+		@include make-md-column(9);
+		overflow: scroll;
+	}
+	
+	
+	
+	
+		
+	@include setAntiAliased();
+}
+
+.share-wrap {
+	padding-bottom: 60px;
+}
+
+
+.footer-dark-wrapper {
+	background-color: #000;
+	padding-top:3em;
+	
+	a {
+		&:link, &:visited {
+			color: #FFF;
+		}
+	}
+	
+		
+	p {
+		color: #FFF;
+		a:link, a:visited {
+			color: #4A90E2;
+		}
+		@include setAntiAliased;
+	}
+	
+
+	
+	.footer-logo {
+		margin-bottom: 30px;
+	}
+	
+	
+	
+	p.registered-charity {
+		font-size:14px;
+		color: #FFF;
+	}
+	
+	padding: 50px 0 100px 0;
+	
+	.ts-and-cs {
+		margin-top: 30px;
+		font-size:14px;
+		
+		a, a:link, a:visited {
+			color: #FFF;
+		}
+	}
+}
+
 

@@ -74,7 +74,7 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Brutal Cuts cat inserter</title>
+  <title>Share your #BrutalCut to Facebook</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -92,7 +92,27 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="images/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="images/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="images/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="images/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="images/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="images/favicon-128.png" sizes="128x128" />
+<meta name="application-name" content="&nbsp;"/>
+<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileImage" content="images/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="images/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="images/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="images/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="images/mstile-310x310.png" />
+
 
    <script>
 	  
@@ -118,35 +138,51 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 
 
 </head>
-<body class="share-window">
+<body class="share-window" style="background: #000">
 	
+<div class="share-wrap" style="background: #e9ebee">	
 	
+	<nav class="navbar navbar-default main-site-navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-logo" href="/" title="Home" rel="Home"><img src="images/actionaid-logo.svg" class="actionaid-logo img-responsive" alt="ActionAid"></a>
+                </div>
+
+                <div class="action-arrow"><img src="images/brandarrow.svg" alt="" height="40"></div>
+            </div>
+        </nav>
+	
+<div class="share-body">	
 	
 	<div class="container">
 		
 		<div class="row">
 			
-			<div class="col-xs-12 col-sm-9 col-sm-offset-2 col-md-6 col-md-offset-3">
-	<h1>Share your video to Facebook</h1>
-	<div align="center" class="embed-responsive <?php echo $class; ?>">
-         <video id="brutalCut" poster="<?php echo $poster; ?>" controls class="embed-responsive-item">
-	         <source src="<?php echo $video; ?>" type="video/mp4">Your browser does not support the video tag.</source>
-
-	     </video>
-    </div>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+	<h1 class="popup-title">Share your video to Facebook</h1>
+	
     
    	
 	<form id="facebooker" class="sendForm" method="post" name="facebooker">
 		
 		<p>
-		<textarea rows="12" name="facebookText" id="facebookText" style="width: 100%; height: 200px;">My message to facebook</textarea>
+		<textarea rows="12" name="facebookText" id="facebookText" style="width: 100%; height: 200px; border-color: #e5e6e9 #dfe0e4 #d0d1d5;">My message to facebook</textarea>
 		</p>
 		
 		<input type="hidden" name="vid" id="vid" value="<?php echo $vid; ?>" />
 		
-		<p>
-		<button type="submit" class="red-box-button facebook" id="fbVideo"><span class="social-logo"></span>Share to facebook</button>
-		</p>
+
+	
+		<button type="submit"  style="margin-top :20px;" class="red-box-button facebook" id="fbVideo"><span class="social-logo"></span>Share to facebook</button>
+	
+	
+	<div align="center" class="share-video embed-responsive <?php echo $class; ?>" style="border-color: #e5e6e9 #dfe0e4 #d0d1d5;">
+         <video id="brutalCut" poster="<?php echo $poster; ?>" controls class="embed-responsive-item">
+	         <source src="<?php echo $video; ?>" type="video/mp4">Your browser does not support the video tag.</source>
+
+	     </video>
+    </div>
+	
 		
 		<div class="sending" id="facebookSending">
 				<div id="sendspinner">
@@ -160,10 +196,38 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 		
 	</form>
 	
-	 </div>
-	 </div>
-	 </div>
 	
+	 </div>
+	 </div>
+	 </div>
+	 </div>
+</div>	
+
+<div class="wrapper footer-dark-wrapper">
+        <footer class="container">
+	        
+	        
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <img class="footer-logo" width="240" src="/images/actionaid-logo.svg" alt="ActionAid. Changing lives. For good.">
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    <p class="registered-charity">© 2016. ActionAid is a charitable company limited by guarantee and registered in England and Wales (company number 01295174). Our England and Wales charity number is 274467, and our Scottish charity number is SC045476.<br>Our registered office is 33-39, Bowling Green Lane, London EC1R 0BJ.</p>                    
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <div class="col-xs-12">
+                    <p class="ts-and-cs"><a target="_blank" href="https://www.actionaid.org.uk/about-us/actionaid-respects-your-privacy">Privacy policy</a></p>
+                </div>
+            </div>
+      
+        </footer>
+
+        
+    </div>
+
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/modernizr-custom.min.js"></script>
     
