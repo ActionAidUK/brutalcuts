@@ -13,6 +13,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 define('APP_LOCATION', '/var/www/brutalcuts.org.uk/public_html/');
 define('TARGET_DIRECTORY', "/var/www/brutalcuts.org.uk/public_html/uploads");
+require __DIR__ . '/settings/dbconnection.inc.php';	
 
 
 $time = time();	
@@ -132,7 +133,7 @@ if ($mode == 'image')
 			//Portait
 			$image->cropImage($w, $w, 0, (($h-$w)/2));
 		}
-		$image->scaleImage(480, 480, true);
+//		$image->scaleImage(480, 480, true);
 		$image->writeImage('tmp/' . $time . '.jpg');
 		
 

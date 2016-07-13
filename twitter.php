@@ -156,7 +156,7 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 					
 				
 				<form id="tweeter" class="sendForm" method="post" name="tweeterform">
-					
+					<div class="error-box" id="noTextError"><ul><li>Please enter some text</li></ul></div>
 					<p><textarea rows="12" name="tweetText" class="shareText"  id="tweetText" data-limit="115" style="width: 100%; height: 200px;">Check out @ActionAidUK's disruptive #BrutalCut video campaign to #endFGM. Visit BrutalCut.org now.</textarea></p>
 					
 					<p class="counter"><span id="charCount">17</span> characters remaining</p>

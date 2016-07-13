@@ -164,7 +164,7 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 	<h1 class="popup-title">Share your video to Facebook</h1>
 	
-    
+					<div class="error-box" id="noTextError"><ul><li>Please enter some text</li></ul></div>
    	
 	<form id="facebooker" class="sendForm" method="post" name="facebooker">
 		

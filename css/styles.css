@@ -2499,6 +2499,9 @@ textarea {
       margin-top: 2em;
       margin-bottom: 2em; }
 
+#noTextError {
+  display: none; }
+
 @keyframes fadeAnimation {
   0% {
     opacity: 0.9; }

@@ -888,17 +888,19 @@ aauk.imagesLoaded = false;
 					charsAvailable = _this.charCount - $(this).val().length;
 					_this.counterText.text(charsAvailable);
 					
-					if (charsAvailable > 0)
+					if (charsAvailable <= 0)
 					{
-						_this.counterText.removeClass('error');
+						_this.counterText.addClass('error');
 
 					} else if($(this).val().length < 1) {
 						
-						_this.counterText.addClass('error');
+						$("#noTextError").slideDown();
 					
 					} else {
 						
-						_this.counterText.addClass('error');
+						$("#noTextError").slideUp();
+						_this.counterText.removeClass('error');
+						
 					}
 					
 					
@@ -951,12 +953,13 @@ aauk.imagesLoaded = false;
 						
 						aauk.shake($('.counter'));
 						
-						return false();
-					} else if($(this).val().length < 1) {
+						return false;
+				
+					} else if($(".shareText").val().length < 1) {
 						
-						aauk.shake($('.counter'));
+						$("#noTextError").slideDown();
 						
-						return false();
+						return false;
 					}
 					
 					
@@ -976,6 +979,12 @@ aauk.imagesLoaded = false;
 						aauk.shake($('.counter'));
 						
 						return false();
+					
+					} else if($(".shareText").val().length < 1) {
+						
+						$("#noTextError").slideDown();
+						
+						return false;
 					}
 					
 					

@@ -7,6 +7,7 @@ session_start();
 header('Content-Type: application/json');
 
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/settings/dbconnection.inc.php';	
 
 define('APP_LOCATION', '/var/www/brutalcuts.org.uk/public_html/');
 define('TARGET_DIRECTORY', "/var/www/brutalcuts.org.uk/public_html/uploads");
@@ -297,6 +298,28 @@ if ($matches)
 		$outputArray = render_standard($ffprobe, $ffmpeg, $dimensions, $time, $time_start,$mode);
 		$outputArray['recode'] = $recode;
 		unlink($target_file);
+		
+		//Save to database
+		$now = date("Y-m-d H:i:s");
+		try {
+
+			$stmt = $conn->prepare("INSERT INTO videos (vid, type, duration, created) VALUES (:vid, :type, :duration, :created)"); 
+			$stmt->bindParam(':vid', $time);
+			$stmt->bindParam(':type', $mode);
+			$stmt->bindParam(':duration', $outputArray['duration']);
+			$stmt->bindParam(':created', $now);
+			$stmt->execute();
+			
+			
+			} catch(PDOException $e)
+			    {
+			$error = $e;
+			    }
+		
+			
+		$conn = null;
+		
+		
 		
 		header('Location: index.php');
 		
