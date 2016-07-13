@@ -400,6 +400,13 @@ aauk.imagesLoaded = false;
 				paramName: 'video-blob',
 				acceptedFiles: 'image/*,video/*',
 				
+				fallback : function() {
+				
+					$("#dropzoneTrigger").remove();
+					$("#bcInstructions").text("To get started, add an image or video here.");
+					
+				},
+				
 				uploadprogress: function(file, progress, bytesSent) {
 
 					dotString = '';
@@ -460,7 +467,6 @@ aauk.imagesLoaded = false;
 					
 					this.on("removedfile", function(file) { 
 						
-					//	console.log("removed");
 						_this.dropzoneResults.fadeOut(function(){
 							
 							_this.dropzoneText.fadeIn();
@@ -487,50 +493,58 @@ aauk.imagesLoaded = false;
 
 			_this.theForm.on("submit", function(e) {
 
-				e.preventDefault();
-				_this.onSubmit();
+				_this.onSubmit(e);
 				
 			});
 			
 			$("#uploadFile").on("change",function(){
+				if( typeof( window.FormData ) !== 'undefined' ) {
 				_this.validateFile();
+				}
 			})
 			
 		},
 		
-		onSubmit : function () {
+		onSubmit : function (e) {
 			
 			var _this = this;
 
-			var validation = _this.validateFile();
 			
 			
+			if( typeof( window.FormData ) !== 'undefined' ) {
+				
+				var validation = _this.validateFile();
 			
-			if (validation.length < 1)
-			{
-				var fd = new FormData(_this.theForm[0]);
+				e.preventDefault();
+	
 				
-				$("#submit-wrap-upload").hide();
-				$("#spinner-upload").show();
-						
-				
-				$.ajax({
-			        url: '/ajax-upload.php',
-			        data: fd,
-			        processData: false,
-			        method: 'POST',
-			        contentType : false,
-			        dataType : 'json',
-			        success: function (json) {
-						
-						_this.displayVideo(json);				        
-				        
-			        }
-			    });
-				
+				if (validation.length < 1)
+				{
+					var fd = new FormData(_this.theForm[0]);
+					
+					$("#spinner-upload").show();
+							
+					
+					$.ajax({
+				        url: '/ajax-upload.php',
+				        data: fd,
+				        processData: false,
+				        method: 'POST',
+				        contentType : false,
+				        dataType : 'json',
+				        success: function (json) {
+							
+							$("#uploadRow").fadeOut(function() {
+								_this.displayVideo(json);
+							});				        
+					        
+				        }
+				    });
+					
+					
+				}
 				
 			}
-			
 			
 		},
 		
@@ -609,7 +623,7 @@ aauk.imagesLoaded = false;
 			} catch (err) {
 				
 				console.log(err);
-				errors.push("Can't check file type");
+			//	errors.push("Can't check file type");
 			}
 			
 			if (errors.length > 0)
@@ -629,6 +643,34 @@ aauk.imagesLoaded = false;
 			
 			return errors;
 			
+		},
+		
+		loadNonAjax : function() {
+			
+			var _this = this;
+			
+			if (typeof uploadResponse != "undefined") 
+			{	
+				$("#uploadRow").hide();
+				_this.displayVideo(uploadResponse);
+
+			}
+			
+		},
+		
+		displayError : function() {
+			
+			var _this = this;
+			
+			if (typeof uploadError != "undefined") 
+			{	
+				_this.theForm.prepend('<div id="error-box" style="display:none;" class="error-box"><ul><li>' + uploadError + '</li></ul></div>');
+
+								
+				$('#error-box').slideDown();
+				
+			}
+			
 		}
 		
 	};}
@@ -641,6 +683,8 @@ aauk.imagesLoaded = false;
 		aauk.videoShare = {
 			
 			vid : '',
+			charCount : 115,
+			counterText : {},
 			
 						
 						
@@ -651,7 +695,6 @@ aauk.imagesLoaded = false;
 				FB.login(function(response) {
 				
 				
-				alert("Response");
 			   	 if (response.authResponse) {
 			        alert("Auth");
 			         _this.shareToFacebook();
@@ -698,8 +741,6 @@ aauk.imagesLoaded = false;
 				        success: function (json) {
 							
 							console.log(json);	
-							
-							alert("Shared");
 									        
 				        }
 				    });
@@ -717,14 +758,39 @@ aauk.imagesLoaded = false;
 				var sendingNotification = $("#tweetSending");
 				sendingNotification.show();
 				
+				
+				if( typeof( window.FormData ) !== 'undefined' ) {
+				
 				var fd = new FormData($("#tweeter")[0]);
 				
 				
-				$.ajax({
-			        url: '/sendtweet.php',
-			        data: fd,
+					$.ajax({
+				        url: '/sendtweet.php',
+				        data: fd,
+				        processData: false,
+				        method: 'POST',
+				        contentType : false,
+				        dataType : 'json',
+				        success: function (json) {
+							
+							console.log(json);	
+							sendingNotification.hide();	
+							
+							$("h1").text('Thank you for tweeting your Brutal cut!');
+							
+							$("#tweeter").slideUp();
+							$("#caseForSupport").slideDown();
+							
+									        
+				        }
+				    });
+			    
+			    } else {
+				    
+				    $.ajax({
+			        url: '/sendtweet.php?vid=' + $('#vid').val() + '&tweetText=' + encodeURI($('#tweetText').val()),
 			        processData: false,
-			        method: 'POST',
+			        method: 'GET',
 			        contentType : false,
 			        dataType : 'json',
 			        success: function (json) {
@@ -732,11 +798,16 @@ aauk.imagesLoaded = false;
 						console.log(json);	
 						sendingNotification.hide();	
 						
-						$("#tweeter").slideUp().after('<h2>Thank you for tweeting your Brutal cut!</h2><p><a class="red-box-button" href="#">Make a donation</a></p>');
+						$("h1").text('Thank you for tweeting your Brutal cut!');
 						
+						$("#tweeter").slideUp();
+						$("#caseForSupport").slideDown();
+				
 								        
 			        }
 			    });
+				    
+			    }
 
 				
 				
@@ -750,14 +821,38 @@ aauk.imagesLoaded = false;
 				var sendingNotification = $("#facebookSending");
 				sendingNotification.show();
 				
-				var fd = new FormData($("#facebooker")[0]);
 				
+				if( typeof( window.FormData ) !== 'undefined' ) {
+					
+					var fd = new FormData($("#facebooker")[0]);
+					
+					
+					$.ajax({
+				        url: '/post-to-facebook.php',
+				        data: fd,
+				        processData: false,
+				        method: 'POST',
+				        contentType : false,
+				        dataType : 'json',
+				        success: function (json) {
+							
+							console.log(json);	
+							sendingNotification.hide();	
+													
+							$("h1").text('Thank you for sharing your Brutal cut!');
+							$("#facebooker").slideUp();
+							$("#caseForSupport").slideDown();
+									        
+				        }
+				    });
 				
-				$.ajax({
-			        url: '/post-to-facebook.php',
-			        data: fd,
+				} else {
+					
+					
+					$.ajax({
+			        url: '/post-to-facebook.php?vid=' + $('#vid').val() + '&facebookText=' + encodeURI($('#facebookText').val()),
 			        processData: false,
-			        method: 'POST',
+			        method: 'GET',
 			        contentType : false,
 			        dataType : 'json',
 			        success: function (json) {
@@ -765,12 +860,51 @@ aauk.imagesLoaded = false;
 						console.log(json);	
 						sendingNotification.hide();	
 						
-						$("#facebooker").slideUp().after('<h2>Thank you for sharing your Brutal cut!</h2><p><a class="red-box-button" href="#">Make a donation</a></p>');
+						$("h1").text('Thank you for sharing your Brutal cut!');
 						
+						$("#facebooker").slideUp();
+						$("#caseForSupport").slideDown();
+				
 								        
 			        }
 			    });
 
+				}
+
+				
+				
+			},
+			
+			
+			bindCounter : function() {
+			
+				var _this = this, charsAvailable, charCount;
+				
+				_this.charCount = $(".shareText").data('limit');
+				_this.counterText = $("#charCount");
+			
+				$(".shareText").on('keyup paste drop',function(){
+					
+					charsAvailable = _this.charCount - $(this).val().length;
+					_this.counterText.text(charsAvailable);
+					
+					if (charsAvailable > 0)
+					{
+						_this.counterText.removeClass('error');
+
+					} else if($(this).val().length < 1) {
+						
+						_this.counterText.addClass('error');
+					
+					} else {
+						
+						_this.counterText.addClass('error');
+					}
+					
+					
+				});
+				
+				$(".shareText").keyup();
 				
 				
 			},
@@ -785,6 +919,7 @@ aauk.imagesLoaded = false;
 				$('#finalVideo').on('click', '.shareButton', function(e){
 					
 					e.preventDefault();
+					
 					
 					_this.vid = $(this).attr("data-videoid");
 					shareType = $(this).attr('data-sharetype');
@@ -809,6 +944,23 @@ aauk.imagesLoaded = false;
 					
 					e.preventDefault();
 					
+					charCount = _this.charCount - $(".shareText").val().length;
+					
+					if (charCount < 0)
+					{
+						
+						aauk.shake($('.counter'));
+						
+						return false();
+					} else if($(this).val().length < 1) {
+						
+						aauk.shake($('.counter'));
+						
+						return false();
+					}
+					
+					
+					
 					_this.uploadAndTweet();
 					
 				});
@@ -817,16 +969,72 @@ aauk.imagesLoaded = false;
 					
 					e.preventDefault();
 					
+					charCount = _this.charCount - $(".shareText").val().length;
+					
+					if (charCount < 0)
+					{
+						aauk.shake($('.counter'));
+						
+						return false();
+					}
+					
+					
+					
 					_this.uploadAndFB();
 					
 				});
 				
+				if ($(".shareText").length > 0 ) {
+					
+					_this.bindCounter();
+					
+				}
 
 				
 			}
 		}
 		
 	};
+	
+	if (typeof aauk.shake === "undefined") { aauk.shake = function(element,params){                                                                                                                                                                                            
+	   
+	    if (params instanceof Object == false) {
+		   var params = {};
+	    }
+	    
+	    params.positioning = typeof params.positioning !== 'undefined' ? params.positioning : 'relative';
+	    params.side = typeof params.side !== 'undefined' ? params.side : 'left';
+	    params.interval = typeof params.interval !== 'undefined' ? params.interval : 100;
+	    params.distance = typeof params.distance !== 'undefined' ? params.distance : '10';
+	    params.times = typeof params.times !== 'undefined' ? params.times : 4;
+	
+	    $(element).css('position',params.positioning);                                                                                  
+	
+		if (params.side == 'left') {
+	
+		    for(var iter=0;iter<(params.times+1);iter++){                                                                              
+		        $(element).animate({ 
+		            left:((iter%2==0 ? params.distance : params.distance*-1))
+		            },params.interval);                                   
+		    }
+		
+		    $(element).animate({ left: 0},params.interval); 
+		} else {
+			
+			 for(var iter=0;iter<(params.times+1);iter++){                                                                              
+		        $(element).animate({ 
+		            right:((iter%2==0 ? params.distance : params.distance*-1))
+		            },params.interval);                                   
+		    }
+		
+		    $(element).animate({ right: 0},params.interval); 
+			
+		}                                                                               
+	
+	};}
+	
+	
+
 
 
 })(jQuery);
@@ -847,9 +1055,12 @@ jQuery(document).ready(function($) {
 			aauk.videoUploader.init();
 
 		}
+		
 	//	}
 
 		aauk.videoShare.init();
+		aauk.videoUploader.loadNonAjax();
+		aauk.videoUploader.displayError();
 });
 
 

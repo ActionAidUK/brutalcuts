@@ -1,3 +1,32 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['error'])) {
+	
+	$error = $_SESSION['error'];
+	session_destroy();
+
+} else if ($_SESSION['no-ajax'] == 1) {
+	
+	$vidArray = array();
+	
+	$vidArray['url'] = $_SESSION['url'];
+	$vidArray['type'] = $_SESSION['type'];
+	$vidArray['poster'] = $_SESSION['poster'];
+	$vidArray['output'] = $_SESSION['output'];
+	$vidArray['id'] = $_SESSION['id'];
+	$vidArray['duration'] = $_SESSION['duration'];
+	$vidArray['size'] = $_SESSION['size'];
+	$vidArray['time'] = $_SESSION['time'];
+	$vidArray['vid'] = $_SESSION['vid'];
+	
+	$vidDetails = json_encode($vidArray);
+	
+	session_destroy();
+}
+
+?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -61,6 +90,21 @@
      js.src = "//connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+    
+    
+    <?php 
+	  
+	  if (isset($vidDetails)) {
+		  echo "var uploadResponse = " . $vidDetails . ";";
+	  }
+	  
+	  if (isset($error))
+	  {
+		  echo 'var uploadError = "' . $error . '";';
+	  }
+	    
+	?>
+    
     </script>
 </head>
 
@@ -68,9 +112,17 @@
    
     <div class="container">
         <div class="row" id="uploadRow">
-            <div class="col-xs-12 col-sm-offset-2 col-sm-9 col-md-offset-3 col-md-6">
+	        <div class="col-xs-12 col-sm-6 bc-instructions">
+		       <h2>How to create your own #BrutalCut</h2>
+<ol>
+<li>Just click on the #BrutalCut tool <span class="mobile-message">below</span><span class="desktop-message">to the right</span></li>
+<li>Choose a photo or short video</li>
+<li>Our tool will add a #BrutalCut to your picture or video for you to share on Facebook or Twitter</li>
+</ol>
+	        </div>
+            <div class="col-xs-12 col-sm-6">
                 <div class="upload-area">
-                    <form method="post" action="ajax-upload.php" id="videoUploadForm" class="" enctype="multipart/form-data">
+                    <form method="post" action="upload.php" id="videoUploadForm" class="" enctype="multipart/form-data">
                         <div id="simpleCapture">
                             <div class="dropzoneWrapper">
 	                            <div id="dropzone" class="dropzone-border">
@@ -84,8 +136,9 @@
 					                             <img src="images/image.svg" alt="Image" width="90" height="90" />
 					                             <img src="images/video.svg" alt="Video" width="90" height="90" />   
 		                             		</p>
-									 		<h2>Create your #BrutalCut</h2>
-			                                <p id="bcInstructions">To get started, drag and drop any image or video here, or click to upload.</p>
+									 		
+			                                <p id="bcInstructions">To get started, click here, or drag and drop an image or video here.</p>
+			                                <p id="filesize">&nbsp;</p>
 											<p><input type="file" id="uploadFile" accept="capture=camcorder" name="video-blob"></p>
 											</div>
 											
@@ -97,22 +150,24 @@
 											<p id="submit-wrap-upload"><input type="submit" value="Next" class="btn btn-primary outline-box-button" name="theSubmit" id="submitButton"></p>
 	                                	
 	                                	</div>
+	                                	
+	                                	<div id="spinner-upload">
+                                    <div class="spinner">
+                                        <div class="double-bounce1"></div>
+
+                                        <div class="double-bounce2"></div>
+                                    </div>
+								</div>
+
 	                                
 	                                </div>
 	                               
                                 </div>
                             </div>
 
-                                <p id="filesize"></p>
+                                
 
-                                <div id="spinner-upload">
-                                    <div class="spinner">
-                                        <div class="double-bounce1"></div>
-
-                                        <div class="double-bounce2"></div>
-                                    </div>
-                            </div>
-                        </div>
+                         </div>
 
                        
                     </form>
@@ -142,8 +197,14 @@
         </div><!-- End Row -->
         
         <div class="row" id="displayRow">
-            <div class="col-xs-12 col-md-offset-2 col-md-9">
+            <div class="col-xs-12 col-md-offset-2 col-md-8">
 				 <div id="finalVideo"></div>
+            </div>
+        </div>
+        
+         <div class="row" id="shareRow">
+            <div class="col-xs-12">
+				 <div class="shareWrapper"><div id="shareContainer"></div></div>
             </div>
         </div>
         

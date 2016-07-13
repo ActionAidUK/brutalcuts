@@ -68,7 +68,15 @@
    
     <div class="container">
         <div class="row" id="uploadRow">
-            <div class="col-xs-12 col-sm-offset-2 col-sm-9 col-md-offset-3 col-md-6">
+	        <div class="col-xs-12 col-sm-6 bc-instructions">
+		       <h2>How to create your own #BrutalCut</h2>
+<ol>
+<li>Just click on the #BrutalCut tool <span class="mobile-message">below</span><span class="desktop-message">to the right</span></li>
+<li>Choose a photo or short video</li>
+<li>Our tool will add a #BrutalCut to your picture or video for you to share on Facebook or Twitter</li>
+</ol>
+	        </div>
+            <div class="col-xs-12 col-sm-6">
                 <div class="upload-area">
                     <form method="post" action="ajax-upload.php" id="videoUploadForm" class="" enctype="multipart/form-data">
                         <div id="simpleCapture">
@@ -84,8 +92,9 @@
 					                             <img src="images/image.svg" alt="Image" width="90" height="90" />
 					                             <img src="images/video.svg" alt="Video" width="90" height="90" />   
 		                             		</p>
-									 		<h2>Create your #BrutalCut</h2>
-			                                <p id="bcInstructions">To get started, drag and drop any image or video here, or click to upload.</p>
+									 		
+			                                <p id="bcInstructions">To get started, click here, or drag and drop an image or video here.</p>
+			                                <p id="filesize">&nbsp;</p>
 											<p><input type="file" id="uploadFile" accept="capture=camcorder" name="video-blob"></p>
 											</div>
 											
@@ -103,7 +112,7 @@
                                 </div>
                             </div>
 
-                                <p id="filesize"></p>
+                                
 
                                 <div id="spinner-upload">
                                     <div class="spinner">

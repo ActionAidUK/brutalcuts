@@ -11,6 +11,8 @@ error_reporting(E_ALL);
 require __DIR__ . '/vendor/autoload.php';
 
 require __DIR__ . '/settings/aa-settings.inc.php';
+require __DIR__ . '/settings/dbconnection.inc.php';	
+
 
 \Codebird\Codebird::setConsumerKey(TWITTERKEY, TWITTERSECRET); // static, see README
 
@@ -100,5 +102,33 @@ if ($sendTweet->httpstatus < 200 || $sendTweet->httpstatus > 299) {
 	echo json_encode(array('error' => @$sendTweet->error, 'httpstatus' => $sendTweet->httpstatus));
 	die();
 }
+
+$twitter_screen_name = $sendTweet->user->screen_name;
+$twitter_name = $sendTweet->user->name;
+$tweet_id = (int) $sendTweet->id_str;
+
+$now = date("Y-m-d H:i:s");
+$error = '';
+
+try {
+
+$stmt = $conn->prepare("INSERT INTO tweets (vid, twitter_sharetext, twitter_screen_name, twitter_name, tweet_id, created) VALUES (:vid, :twitter_sharetext, :twitter_screen_name, :twitter_screen_name, :tweet_id, :created)"); 
+$stmt->bindParam(':vid', $vid);
+$stmt->bindParam(':twitter_sharetext', $tweetText);
+$stmt->bindParam(':twitter_screen_name', $twitter_screen_name);
+$stmt->bindParam(':twitter_name', $twitter_name);
+$stmt->bindParam(':tweet_id', $tweet_id);
+$stmt->bindParam(':created', $now);
+$stmt->execute();
+
+
+} catch(PDOException $e)
+    {
+$error = $e;
+    }
+
+$conn = null;
+
+
 
 echo json_encode(array('httpstatus' => '200'));

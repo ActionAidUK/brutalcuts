@@ -2,8 +2,16 @@ body {
 	height: auto;
 	background: $aa-red;
 	
+	@media (min-width: $screen-sm-min) {
+
+	padding-top: 20px;
+	padding-bottom: 40px;
+	
+	}
+	
 	&.share-window {
 		background: #FFF;
+		padding-top: 0;
 	}
 	
 }
@@ -255,10 +263,36 @@ h3 {
 	width: 100%;
 	position: relative;
 	
+	#spinner-upload {
+		
+		width: 100%;
+	    height: 100%;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    background: rgba(237,29,36,0.5);
+	    
+	    .spinner {
+		    width: 40px;
+		    height: 40px;
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    margin-left: -20px;
+		    margin-top: -20px;
+	    }
+	    
+	    
+	    .double-bounce1, .double-bounce2 {
+			background-color: #FFF;
+  		}
+  
+  	}
+	
 	.dropzone-border {
 		width: 100%;
-		height: 0;
-		padding-bottom: 100%;
+//		height: 0;
+//		padding-bottom: 100%;
 		border: 3px dashed #f8a5a7;
 		border-radius: 16px;
 		
@@ -272,7 +306,7 @@ h3 {
 	}
 	
 	.dropzone-inner {
-		position: absolute;
+//		position: absolute;
 		top: 0;
 		left: 0;
 		height: 100%;
@@ -281,16 +315,28 @@ h3 {
 	
 	.dropzone-content {
 		text-align: center;
-		padding-left: 50px;
-		padding-right: 50px;
+//		padding-left: 50px;
+//		padding-right: 50px;
+
+		padding: 50px 50px 50px 40px;
 		
-		@include vertical-align();
+//		@include vertical-align();
 		
 		p, h2 {
 			text-align: center;
 		}
 		
 		
+	}
+	
+	#submitButton {
+		width: 100%;
+		margin-top: 20px;	
+	}
+	
+	#uploadFile {
+		background-color: #FFF;
+		color: #000;
 	}
 	
 	#dropzoneTrigger {
@@ -322,6 +368,8 @@ h3 {
 	.dz-success-mark, .dz-error-mark {
 		display: none;
 	}
+	
+	
 	
 
 	
@@ -425,6 +473,81 @@ textarea {
 		
 		.twitter {
 			margin-right: 10px;
+		}
+	}
+	
+}
+
+.bc-instructions {
+	h2 {
+		margin-bottom: 20px;
+		font-size: 24px;
+		@media (min-width: $screen-sm-min) {
+			font-size: 30px;
+		}
+	}
+	
+	.mobile-message {
+		display: inline;
+	}
+	
+	.desktop-message {
+		display: none;
+	}
+	
+	@media (min-width: $screen-sm-min) {
+		.mobile-message {
+		display: none;
+	}
+	
+	.desktop-message {
+		display: inline;
+	}
+	}
+	
+	ol {
+		margin-bottom: 20px;
+	}
+	
+	
+	p,li {
+		color: #FFF;
+		font-size:16px;
+		margin-bottom: 0.75em;
+		
+			@media (min-width: $screen-sm-min) {
+font-size: 20px;
+
+			}
+	}
+	
+	ol {
+		
+	}
+}
+
+.counter {
+	color: #222;
+	
+	#charCount {
+		
+		&.error {
+			color: $aa-red;
+		}
+	}
+}
+
+.caseForSupport {
+	display: none;
+	
+	p {
+		color: #222;
+		line-height: 1.5;
+		margin-bottom: 1.2em;
+		
+		.img-responsive {
+			margin-top: 2em;
+			margin-bottom: 2em;
 		}
 	}
 	

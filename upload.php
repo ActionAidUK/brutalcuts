@@ -25,8 +25,10 @@ if (isset($_POST["video-filename"])) {
 		$fileName = basename($_FILES["video-blob"]["name"]);
 		
 } else {
+	
+	$_SESSION['error'] = 'No valid file uploaded';
+	header('Location: index.php');
 
-	echo json_encode(array("error"=>"No valid file uploaded"));
 	exit;
 }
 
@@ -295,18 +297,23 @@ if ($matches)
 		$outputArray = render_standard($ffprobe, $ffmpeg, $dimensions, $time, $time_start,$mode);
 		$outputArray['recode'] = $recode;
 		unlink($target_file);
-		echo json_encode($outputArray);
+		
+		header('Location: index.php');
+		
+		
 
 	} else {
 
-		$outputArray['error'] = 1;
-		$outputArray['error-message'] = "Sorry, there was an error uploading your file.";
+
+		
+		$_SESSION['error'] = 'Sorry, there was an error uploading your file.';
+		header('Location: index.php');
 
 	}
 
 } else {
-
-	echo json_encode(array('error'=>1, 'error-message'=>"Could not upload this file"));
+	$_SESSION['error'] = 'Could not upload this file';
+	header('Location: index.php');
 
 }
 
@@ -384,15 +391,16 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 	
 	$time_end = microtime(true);
 
-	$outputArray['url'] = 'export/' . $time . '-output.mp4';
-	$outputArray['type'] = 'video/mp4';
-	$outputArray['poster'] = 'export/' . $time . 'cover.jpg';
+	$_SESSION['no-ajax'] = 1;
+	$_SESSION['url'] = 'export/' . $time . '-output.mp4';
+	$_SESSION['type'] = 'video/mp4';
+	$_SESSION['poster'] = 'export/' . $time . 'cover.jpg';
 //	$outputArray['command'] = $concatComand;
-	$outputArray['output'] = $output;
-	$outputArray['id'] = $time;
-	$outputArray['duration'] = @$videoFormaFinal['duration'];
-	$outputArray['size'] = @$videoFormaFinal['size'];
-	$outputArray['time'] = $time_end - $time_start;
+	$_SESSION['output'] = $output;
+	$_SESSION['id'] = $time;
+	$_SESSION['duration'] = @$videoFormaFinal['duration'];
+	$_SESSION['size'] = @$videoFormaFinal['size'];
+	$_SESSION['time'] = $time_end - $time_start;
 
 	$_SESSION['vid'] = $time;
 

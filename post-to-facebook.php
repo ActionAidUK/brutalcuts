@@ -13,6 +13,7 @@ if(!session_id()) {
 
 require __DIR__ . '/vendor/autoload.php';	
 require __DIR__ . '/settings/facebook.php';	
+require __DIR__ . '/settings/dbconnection.inc.php';	
 
 
 
@@ -36,7 +37,7 @@ if (isset($_SESSION['facebook_access_token']))
 {
 	try {
 		
-		$fb->get('/me',$_SESSION['facebook_access_token']);
+		$me = $fb->get('/me?fields=id,name',$_SESSION['facebook_access_token']);
 		
 		$accessToken = $_SESSION['facebook_access_token'];
 		
@@ -57,7 +58,7 @@ if (isset($_SESSION['facebook_access_token']))
 
 
 $data = [
-  'title' => 'ActionAid Brutal Cut',
+  'title' => 'ActionAid #BrutalCut',
   'description' => $message,
 ];
 
@@ -78,8 +79,34 @@ try {
   exit;
 }
 
+$user = $me->getGraphUser();
 
-echo json_encode(array('success' => @$response['success'], 'video_id' => @$response['video_id']));
+$name = $user['name'];
+$user_id = $user['id'];
+$fbVidId = $response['video_id'];
+$now = date("Y-m-d H:i:s");
+$error = '';
+
+try {
+
+$stmt = $conn->prepare("INSERT INTO facebook (vid, facebook_sharetext, facebook_userid, facebook_name, created) VALUES (:vid, :facebook_sharetext, :facebook_userid, :facebook_name, :created)"); 
+$stmt->bindParam(':vid', $vid);
+$stmt->bindParam(':facebook_sharetext', $message);
+$stmt->bindParam(':facebook_userid', $user_id);
+$stmt->bindParam(':facebook_name', $name);
+$stmt->bindParam(':created', $now);
+$stmt->execute();
+
+
+} catch(PDOException $e)
+    {
+$error = $e;
+    }
+
+$conn = null;
+
+
+echo json_encode(array('success' => @$response['success'], 'video_id' => @$response['video_id'],'error'=>$stmt));
 
 
 

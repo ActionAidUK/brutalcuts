@@ -2,6 +2,9 @@
 
 session_start();
 
+
+
+
 if (isset($_GET['vid']))
 
 {
@@ -166,8 +169,10 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 	<form id="facebooker" class="sendForm" method="post" name="facebooker">
 		
 		<p>
-		<textarea rows="12" name="facebookText" id="facebookText" style="width: 100%; height: 200px; border-color: #e5e6e9 #dfe0e4 #d0d1d5;">My message to facebook</textarea>
+		<textarea rows="12" name="facebookText" class="shareText" data-limit="250" id="facebookText" style="width: 100%; height: 200px; border-color: #e5e6e9 #dfe0e4 #d0d1d5;">I’m supporting @ActionAidUK's disruptive #BrutalCut video campaign to help end FGM. Visit BrutalCut.org now or TEXT 1234 to donate now.</textarea>
 		</p>
+		
+		<p class="counter"><span id="charCount">115</span> characters remaining</p>
 		
 		<input type="hidden" name="vid" id="vid" value="<?php echo $vid; ?>" />
 		
@@ -184,7 +189,7 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
     </div>
 	
 		
-		<div class="sending" id="facebookSending">
+		<div class="sending" id="facebookSending" style="background-color: rgba(233,235,238,0.8)">
 				<div id="sendspinner">
 					<div class="spinner">
 					  <div class="double-bounce1"></div>
@@ -196,6 +201,23 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 		
 	</form>
 	
+	<div id="caseForSupport" class="caseForSupport">
+				<p><strong>Thank you for sharing your #BrutalCut video to help raise awareness about this brutal procedure putting so many girls’ lives at risk.</strong></p>
+
+					<p>If you’d like to make a donation too, however small, that would be amazing.</p>
+
+					<p><img src="images/abigail.jpg" class="img-responsive" alt="Abigail" /></p>
+
+					<p>14-year-old Abigail, pictured above, is from Kenya. She narrowly escaped having FGM by running away and finding safety at an ActionAid-funded safe house. With your support, we can build more safe centres for girls at risk of FGM, where they can go back to school and rebuild their lives free from fear.</p>
+
+					<p>And we won’t stop there: our centres will be community hubs, where local women’s groups can come together and continue the fight against FGM.</p>
+
+					<p><strong>Please help Kenyan girls escape FGM, for good.</strong></p>
+					
+					<p><a href="https://support.actionaid.org.uk/donate?sku=6&amount=15" class="red-box-button">Make a donation now</a></p>
+
+					
+				</div>
 	
 	 </div>
 	 </div>

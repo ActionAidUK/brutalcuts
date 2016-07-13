@@ -24,8 +24,13 @@ $time = time();
 //$fileToProcess = '/var/www/brutalcuts.org.uk/public_html/uploads/upload-trim.7D702F4F-6D82-47E0-8780-14AB41E626EC.MOV';
 //$fileToProcess = '/var/www/brutalcuts.org.uk/public_html/uploads/upload-trim.68B69372-77BD-4134-B6B4-B88218B5BA5D.MOV';
 //$fileToProcess = '/var/www/brutalcuts.org.uk/public_html/uploads/upload-trim.4BF5A3C7-0170-41E3-B8DF-9B663479BA24.MOV';
-$fileToProcess = '/var/www/brutalcuts.org.uk/public_html/uploads/1467641402upload-x264.mp4';
-$fileToProcess = '/var/www/brutalcuts.org.uk/public_html/uploads/thumbs-up-gif.gif';
+//$fileToProcess = '/var/www/brutalcuts.org.uk/public_html/files/IMG_6710.MOV';
+//$fileToProcess = '/var/www/brutalcuts.org.uk/public_html/files/IMG_6731.MOV';
+//$fileToProcess = '/var/www/brutalcuts.org.uk/public_html/uploads/giphy.gif';
+
+
+$fileToProcess = '/var/www/brutalcuts.org.uk/public_html/images/IMG_6728.JPG';
+$fileToProcess = '/var/www/brutalcuts.org.uk/public_html/images/IMG_6729.JPG';
 
 	/*
 
@@ -54,14 +59,12 @@ $imageFileType = pathinfo($fileToProcess,PATHINFO_EXTENSION);
 
 
 
-// Check if image file is a actual image or fake image
 
-//	$outputArray = array();
-//	$pattern = '/^video.+/';
-//    preg_match($pattern,$_FILES["video-blob"]["type"],$matches);
-    
-//    if ($matches)
-//    {
+
+	$mode = 'image';
+	
+	
+	
 	     $outputArray['error'] = 0;
 //	    if (move_uploaded_file('/var/www/brutalcuts.org.uk/public_html/files/tampons.mp4', $target_file)) {
 	       
@@ -88,8 +91,6 @@ $imageFileType = pathinfo($fileToProcess,PATHINFO_EXTENSION);
 			   	$theTest = 'ffprobe   -show_streams ' . $fileToProcess . '  2>/dev/null  | grep rotate';
 			   	$output=exec($theTest, $out);
 	
-	
-	
 
 		       
 	
@@ -106,8 +107,68 @@ if (count($out) > 0) {
 	$rotation  = 0;
 }
 
+if ($mode == 'image')
+{
+	
+	
+	
+	
+	try {
+		$exif = exif_read_data($fileToProcess);
+		
+		
+		$w = $exif['ExifImageWidth'];
+		$h = $exif['ExifImageLength'];
+		
+		$image = new \Imagick($fileToProcess);
+		
+		
+		if ($w > $h)
+		{
+			//Landscape	
+			$image->cropImage($h, $h, (($w-$h)/2), 0);
+			
+		} else {
+			//Portait
+			$image->cropImage($w, $w, 0, (($h-$w)/2));
+		}
+		$image->scaleImage(480, 480, true);
+		$image->writeImage('tmp/' . $time . '.jpg');
+		
+
+		switch ($exif['Orientation'])
+		{
+			case 8 :
+				$rotation = 90;
+				break;
+				
+			case 3 :
+				$rotation = 180;
+				break;
+			
+			case 6 :
+				$rotation = 270;
+				break;
+				
+			default: 
+				$rotation = 0;
+			
+		}
+		
+	} catch ( Exception $e) {
+		
+		$rotation = 0;
+	}
+	
+}
+
+echo $rotation;
+exit;
+
 
 $aspectRatio = round($dimensions->getRatio()->getValue(),1);
+
+
 
 switch ($rotation) {
 	
