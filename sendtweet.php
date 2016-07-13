@@ -105,7 +105,7 @@ if ($sendTweet->httpstatus < 200 || $sendTweet->httpstatus > 299) {
 
 $twitter_screen_name = $sendTweet->user->screen_name;
 $twitter_name = $sendTweet->user->name;
-$tweet_id = (int) $sendTweet->id_str;
+$tweet_id = $sendTweet->id_str;
 
 $now = date("Y-m-d H:i:s");
 $error = '';
@@ -131,4 +131,4 @@ $conn = null;
 
 
 
-echo json_encode(array('httpstatus' => '200'));
+echo json_encode(array('httpstatus' => '200','status'=>$sendTweet,'tweetid'=>$tweet_id));

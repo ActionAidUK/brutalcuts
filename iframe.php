@@ -173,7 +173,6 @@
 </script><script src="js/js-fileupload/jquery.iframe-transport.js" type="text/javascript">
 </script><script src="js/js-fileupload/jquery.fileupload.js" type="text/javascript">
 </script><script src="js/iframeResizer.contentWindow.min.js" type="text/javascript">
-</script><script src="js/webrtc/adapter.js" type="text/javascript">
 </script><script src="js/dropzone.js" type="text/javascript">
 </script><script src="js-source/brutalcuts.js" type="text/javascript">
 </script>

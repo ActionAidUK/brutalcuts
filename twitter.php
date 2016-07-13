@@ -9,7 +9,7 @@ if (isset($_GET['vid']))
 	$_SESSION['vid'] = $_GET['vid'];
 }
 
-
+header('Content-Type: text/html; charset=utf-8');
 require __DIR__ . '/vendor/autoload.php';
 
 require __DIR__ . '/settings/aa-settings.inc.php';
@@ -247,8 +247,7 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
     <script src="js/js-fileupload/vendor/jquery.ui.widget.js"></script>
 	<script src="js/js-fileupload/jquery.iframe-transport.js"></script>
 <script src="js/js-fileupload/jquery.fileupload.js"></script>
-	<script src="js/webrtc/adapter.js"></script>
-  <script src="js-source/brutalcuts.js"></script
+<script src="js/brutalcuts-min.js" type="text/javascript"></script>
 	
 </body>
 </html>

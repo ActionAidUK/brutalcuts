@@ -3,7 +3,7 @@
 session_start();
 
 
-
+header('Content-Type: text/html; charset=utf-8');
 
 if (isset($_GET['vid']))
 
@@ -257,8 +257,7 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 	<script src="js/js-fileupload/jquery.iframe-transport.js"></script>
 <script src="js/js-fileupload/jquery.fileupload.js"></script>
     <script src="js/fancybox/jquery.fancybox.pack.js"></script>
-	<script src="js/webrtc/adapter.js"></script>
-  <script src="js-source/brutalcuts.js"></script
+<script src="js/brutalcuts-min.js" type="text/javascript"></script>
 	
 </body>
 </html>

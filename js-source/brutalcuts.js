@@ -564,6 +564,8 @@ aauk.imagesLoaded = false;
 				wrapperClass = 'embed-responsive-square';
 			}
 			        
+			parent.postMessage({method : 'scroll'},"https://www.actionaid.org.uk");
+			        
 			$("#finalVideo").html('<div class="align-wrapper ' + wrapperClass + '"><div align="center" class="embed-responsive ' + wrapperClass + '" ><video id="brutalCut"  autoplay poster="' + json.poster + '" controls class="embed-responsive-item"><source src="' + json.url + '" type="video/mp4">Your browser does not support the video tag.</video></div></div>');
 			$("#shareContainer").html('<p><a download target="_blank" class="red-box-button inline-button file-download-button" href="' + json.url + '"><span class="download-icon"></span>Download</a><a target="_blank" id="shareToTwitter" class="red-box-button twitter inline-button" href="twitter.php?vid=' + json.id + '" data-sharetype="TShareOauth" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to twitter</a><a target="_blank" id="shareToFacebook" class="red-box-button facebook inline-button" href="facebook.php?vid=' + json.id + '" data-sharetype="facebookShare" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to Facebook</a></p>');
 			//Twitter caon only handle <15Mb and < 30secs...
