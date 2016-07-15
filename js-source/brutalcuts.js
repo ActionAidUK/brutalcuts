@@ -404,6 +404,8 @@ aauk.imagesLoaded = false;
 				
 					$("#dropzoneTrigger").remove();
 					$("#bcInstructions").text("To get started, add an image or video here.");
+					$("#filesize").show();
+					$("#fallbackButton").show();
 					
 				},
 				
@@ -557,17 +559,17 @@ aauk.imagesLoaded = false;
 			$("#getMediaCapture").hide();			
 			$("#videoUploadForm").hide();
 			
-			if (json.width == '640')
+			if (json.aspectratio == 'square')
 			{
-				wrapperClass = 'embed-responsive-16by9';
-			} else {
 				wrapperClass = 'embed-responsive-square';
+			} else {
+				wrapperClass = 'embed-responsive-16by9';
 			}
 			        
 			parent.postMessage({method : 'scroll'},"https://www.actionaid.org.uk");
 			        
 			$("#finalVideo").html('<div class="align-wrapper ' + wrapperClass + '"><div align="center" class="embed-responsive ' + wrapperClass + '" ><video id="brutalCut"  autoplay poster="' + json.poster + '" controls class="embed-responsive-item"><source src="' + json.url + '" type="video/mp4">Your browser does not support the video tag.</video></div></div>');
-			$("#shareContainer").html('<p><a download target="_blank" class="red-box-button inline-button file-download-button" href="' + json.url + '"><span class="download-icon"></span>Download</a><a target="_blank" id="shareToTwitter" class="red-box-button twitter inline-button" href="twitter.php?vid=' + json.id + '" data-sharetype="TShareOauth" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to twitter</a><a target="_blank" id="shareToFacebook" class="red-box-button facebook inline-button" href="facebook.php?vid=' + json.id + '" data-sharetype="facebookShare" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to Facebook</a></p>');
+			$("#shareContainer").html('<p><a download target="_blank" class="red-box-button inline-button file-download-button" id="downloadButton" href="' + json.url + '"><span class="download-icon"></span>Download</a><a target="_blank" id="shareToTwitter" class="red-box-button twitter inline-button" href="twitter.php?vid=' + json.id + '" data-sharetype="TShareOauth" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to twitter</a><a target="_blank" id="shareToFacebook" class="red-box-button facebook inline-button" href="facebook.php?vid=' + json.id + '" data-sharetype="facebookShare" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to Facebook</a></p>');
 			//Twitter caon only handle <15Mb and < 30secs...
 			if ((Number(json.duration) > 29.99) || (Number(json.size) > 15728640))
 			{	
@@ -577,6 +579,13 @@ aauk.imagesLoaded = false;
 				
 			}
 			
+			/*
+			if (json.gif != null)
+			{
+				$("#downloadButton").attr('href',json.gif);
+				
+			}
+			*/
 				        
 			$("#finalVideo").fadeIn();
 			
@@ -687,7 +696,8 @@ aauk.imagesLoaded = false;
 			vid : '',
 			charCount : 115,
 			counterText : {},
-			
+			urlRegex : '',
+			shareType : '',
 						
 						
 			facebookLogin: function(){
@@ -778,7 +788,7 @@ aauk.imagesLoaded = false;
 							console.log(json);	
 							sendingNotification.hide();	
 							
-							$("h1").text('Thank you for tweeting your Brutal cut!');
+							$("h1").text('Thank you for tweetingt!');
 							
 							$("#tweeter").slideUp();
 							$("#caseForSupport").slideDown();
@@ -800,7 +810,7 @@ aauk.imagesLoaded = false;
 						console.log(json);	
 						sendingNotification.hide();	
 						
-						$("h1").text('Thank you for tweeting your Brutal cut!');
+						$("h1").text('Thank you for tweeting!');
 						
 						$("#tweeter").slideUp();
 						$("#caseForSupport").slideDown();
@@ -841,7 +851,7 @@ aauk.imagesLoaded = false;
 							console.log(json);	
 							sendingNotification.hide();	
 													
-							$("h1").text('Thank you for sharing your Brutal cut!');
+							$("h1").text('Thank you for sharing your #BrutalCut!');
 							$("#facebooker").slideUp();
 							$("#caseForSupport").slideDown();
 									        
@@ -862,7 +872,7 @@ aauk.imagesLoaded = false;
 						console.log(json);	
 						sendingNotification.hide();	
 						
-						$("h1").text('Thank you for sharing your Brutal cut!');
+						$("h1").text('Thank you for sharing your #BrutalCut!');
 						
 						$("#facebooker").slideUp();
 						$("#caseForSupport").slideDown();
@@ -880,14 +890,30 @@ aauk.imagesLoaded = false;
 			
 			bindCounter : function() {
 			
-				var _this = this, charsAvailable, charCount;
+				var _this = this, charsAvailable, findURLS, x, urlChars;
 				
+				
+
+				_this.shareType = $(".shareText").data('type');
 				_this.charCount = $(".shareText").data('limit');
 				_this.counterText = $("#charCount");
 			
 				$(".shareText").on('keyup paste drop',function(){
 					
-					charsAvailable = _this.charCount - $(this).val().length;
+					urlChars = 0;
+					
+					
+					//OK, for Twitter, URLS take up 23 characters no matter how long they are. Let's account for this...
+					if (_this.shareType == 'twitter')
+					{
+						charsAvailable =  _this.charCount - _this.getTwitterLength($(this).val());
+						console.log(charsAvailable);
+					} else {
+						
+						charsAvailable = _this.charCount - $(this).val().length;
+					}
+					
+					
 					_this.counterText.text(charsAvailable);
 					
 					if (charsAvailable <= 0)
@@ -914,11 +940,43 @@ aauk.imagesLoaded = false;
 			},
 			
 			
+			getTwitterLength : function(string) {
+				
+				console.log("String length: " + string.length);
+				
+				var findURLS, x, adjustment = 0, urlChars = 0, _this = this;
+				
+				findURLS =  string.match(_this.urlRegex);
+						
+				//Calculate the total number of charaters in all URLS in the tweet
+				if (findURLS)
+				{
+					
+					console.log("No. URLS length: " + findURLS.length);
+					
+					for (x in findURLS)
+					{
+						urlChars += findURLS[x].length;
+					}
+					
+					console.log("Chars in URLS: " + urlChars);
+					console.log("Chars per URL: " + findURLS.length * 23);
+							
+					adjustment = urlChars - (findURLS.length * 23);
+												
+				}
+				console.log("Adjustment: " + adjustment);
+				return string.length - adjustment;
+				
+			},
+			
+			
 					
 			init : function () {
 				var _this = this,
 				shareType = '';
 				
+				_this.urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 							
 				$('#finalVideo').on('click', '.shareButton', function(e){
 					
@@ -948,7 +1006,8 @@ aauk.imagesLoaded = false;
 					
 					e.preventDefault();
 					
-					charCount = _this.charCount - $(".shareText").val().length;
+					_this.charCount = _this.charCount - _this.getTwitterLength($(".shareText").val());
+					
 					
 					if (charCount < 0)
 					{
@@ -1045,6 +1104,83 @@ aauk.imagesLoaded = false;
 	};}
 	
 	
+	
+	//Allows us to equalise heights of boxes. give the boxes a class of equal-height. group them using data-heightGroup.
+	if (typeof aauk.equalBoxHeights === "undefined") { aauk.equalBoxHeights = {
+	
+		groups : [],
+		timer : {},
+		
+		
+		init: function() {
+			
+			var _this = this;
+			var theGroup = '';
+			$(".equal-height").each(function(){
+				
+				theGroup = $(this).attr('data-heightGroup');
+				
+				if ($.inArray(theGroup, _this.groups) < 0)
+				{
+					_this.groups.push(theGroup);
+				}
+				
+			});
+			
+			
+			if(window.addEventListener) {
+				
+				window.addEventListener('resize', function(){
+					_this.evenHeights();
+				});
+				
+			} else {
+				
+				window.attachEvent('resize', function(){
+					_this.evenHeights();
+				});
+				
+			}
+			
+			_this.resizeW();
+			
+		},
+		
+		evenHeights: function () {
+			
+			var _this = this;
+			clearTimeout(_this.timer);
+			_this.timer = setTimeout(function(){ _this.resizeW(); }, 100);
+		},
+		
+		resizeW : function () {
+			
+			var _this = this;
+			var x;
+			for (x in _this.groups)
+			{
+				$(".equal-height[data-heightGroup='" + _this.groups[x] + "']").height('inherit');
+				
+				var maxHeight = 0;
+				
+				$(".equal-height[data-heightGroup='" + _this.groups[x] + "']").each(function()
+				{
+					if ($(this).height() > maxHeight)
+					{
+						maxHeight = $(this).height();
+					}
+				});
+				
+				
+				$(".equal-height[data-heightGroup='" + _this.groups[x] + "']").height(maxHeight);
+				
+			}
+
+		}
+			
+		
+	};}
+	
 
 
 
@@ -1075,7 +1211,9 @@ jQuery(document).ready(function($) {
 });
 
 
-
+jQuery(window).bind("load", function() {
+	aauk.equalBoxHeights.init();
+});
 
 
 

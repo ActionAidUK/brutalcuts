@@ -88,7 +88,7 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 		   $video->save(new FFMpeg\Format\Video\X264(), 'tmp/' . $time . 'part2-x264.mp4');
 		   
 		   
-		   $concatComand = '/usr/bin/ffmpeg -i ' . $appLocation . 'tmp/' . $time . 'part1-x264.mp4 -i ' . $insertFile . ' -i ' . $appLocation . 'tmp/' . $time . 'part2-x264.mp4 -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] [2:v:0] [2:a:0] concat=n=3:v=1:a=1 [v] [a]" -map "[v]" -map "[a]" ' . $appLocation . 'export/' . $time . '-output.mp4';
+		   $concatComand = '/usr/bin/ffmpeg -i ' . $appLocation . 'tmp/' . $time . 'part1-x264.mp4 -i ' . $insertFile . ' -i ' . $appLocation . 'tmp/' . $time . 'part2-x264.mp4 -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] [2:v:0] [2:a:0] concat=n=3:v=1:a=1 [v] [a]" -map "[v]" -map "[a]" ' . $appLocation . 'videos/' . $time . '-output.mp4';
 		   $output=exec($concatComand, $out);
 
 
@@ -96,13 +96,13 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 		   
 
 		   //Extract initial frame for display
-		   $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(0))->save('export/' . $time . 'cover.jpg');
+		   $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(0))->save('posters/' . $time . 'cover.jpg');
 		   
 		   
 		   echo '<div align="center" class="embed-responsive embed-responsive-16by9">';
 		   			
-		   echo '<video  autoplay poster="export/' . $time . 'cover.jpg"  class="embed-responsive-item">
-		   		<source src="export/' . $time . '-output.mp4" type="video/mp4">
+		   echo '<video  autoplay poster="posters/' . $time . 'cover.jpg"  class="embed-responsive-item">
+		   		<source src="videos/' . $time . '-output.mp4" type="video/mp4">
 		   			Your browser does not support the video tag.
 		   		</video>';
 		   

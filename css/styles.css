@@ -2320,6 +2320,8 @@ h3 {
 .dropzoneWrapper {
   width: 100%;
   position: relative; }
+  .dropzoneWrapper #filesize, .dropzoneWrapper #fallbackButton {
+    display: none; }
   .dropzoneWrapper #spinner-upload {
     width: 100%;
     height: 100%;
@@ -2339,8 +2341,14 @@ h3 {
       background-color: #FFF; }
   .dropzoneWrapper .dropzone-border {
     width: 100%;
+    margin-bottom: 20px;
     border: 3px dashed #f8a5a7;
     border-radius: 16px; }
+    @media (min-width: 768px) {
+      .dropzoneWrapper .dropzone-border {
+        margin-bottom: 0;
+        height: 0;
+        padding-bottom: 100%; } }
     .dropzoneWrapper .dropzone-border.active {
       -webkit-transition: background-color 150ms ease-in;
       -moz-transition: background-color 150ms ease-in;
@@ -2355,9 +2363,19 @@ h3 {
     left: 0;
     height: 100%;
     width: 100%; }
+    @media (min-width: 768px) {
+      .dropzoneWrapper .dropzone-inner {
+        position: absolute; } }
   .dropzoneWrapper .dropzone-content {
     text-align: center;
     padding: 50px 50px 50px 40px; }
+    @media (min-width: 768px) {
+      .dropzoneWrapper .dropzone-content {
+        position: relative;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%); } }
     .dropzoneWrapper .dropzone-content p, .dropzoneWrapper .dropzone-content h2 {
       text-align: center; }
   .dropzoneWrapper #submitButton {
@@ -2461,10 +2479,13 @@ textarea {
 
 .bc-instructions h2 {
   margin-bottom: 20px;
-  font-size: 24px; }
+  font-size: 24px;
+  text-align: center; }
   @media (min-width: 768px) {
     .bc-instructions h2 {
       font-size: 30px; } }
+.bc-instructions #bcInstructions {
+  margin-bottom: 0; }
 .bc-instructions .mobile-message {
   display: inline; }
 .bc-instructions .desktop-message {
@@ -2475,11 +2496,15 @@ textarea {
   .bc-instructions .desktop-message {
     display: inline; } }
 .bc-instructions ol {
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  padding-left: 1.25em;
+  text-align: center;
+  list-style: none; }
 .bc-instructions p, .bc-instructions li {
   color: #FFF;
   font-size: 16px;
-  margin-bottom: 0.75em; }
+  margin-bottom: 0.75em;
+  text-align: center; }
   @media (min-width: 768px) {
     .bc-instructions p, .bc-instructions li {
       font-size: 20px; } }

@@ -22,9 +22,9 @@ require __DIR__ . '/settings/dbconnection.inc.php';
 
 
 
-if (file_exists('export/' . $vid . '-output.mp4'))
+if (file_exists('videos/' . $vid . '-output.mp4'))
 {
-	$video = 'export/' . $vid . '-output.mp4';
+	$video = 'videos/' . $vid . '-output.mp4';
 } else {
 	
   echo json_encode(array("error"=>"No such video"));

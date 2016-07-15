@@ -291,7 +291,7 @@ if ($matches)
 		$ffmpeg = FFMpeg\FFMpeg::create();
 		$video = $ffmpeg->open('tmp/' . $time . 'upload-x264.mp4');
 		//Extract initial frame for display
-		$video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(0))->save('export/' . $time . 'cover.jpg');
+		$video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(0))->save('posters/' . $time . 'cover.jpg');
 	
 		 
 				
@@ -378,7 +378,7 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 		$output2=exec($clip2, $out2);
 		
 	
-		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'part1-x264.mp4 -i ' . $insertFile . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'part2-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'export/' . $time . '-output.mp4 2>&1';
+		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'part1-x264.mp4 -i ' . $insertFile . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'part2-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'videos/' . $time . '-output.mp4 2>&1';
 		
 	} else {
 		
@@ -387,7 +387,7 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 		$outputArray['aspectratio'] = 'square';
 		$_SESSION['aspectratio'] = 'square';
 		
-		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -i ' . $insertFileSquare . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'export/' . $time . '-output.mp4 2>&1';		
+		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -i ' . $insertFileSquare . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'videos/' . $time . '-output.mp4 2>&1';		
 	}
 	
 
@@ -408,16 +408,16 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 	//Check final size and duration:
 	
 
-	$videoFormaFinal = $ffprobe->format('export/' . $time . '-output.mp4')->all();
+	$videoFormaFinal = $ffprobe->format('videos/' . $time . '-output.mp4')->all();
 	
 	
 	
 	$time_end = microtime(true);
 
 	$_SESSION['no-ajax'] = 1;
-	$_SESSION['url'] = 'export/' . $time . '-output.mp4';
+	$_SESSION['url'] = 'videos/' . $time . '-output.mp4';
 	$_SESSION['type'] = 'video/mp4';
-	$_SESSION['poster'] = 'export/' . $time . 'cover.jpg';
+	$_SESSION['poster'] = 'posters/' . $time . 'cover.jpg';
 //	$outputArray['command'] = $concatComand;
 	$_SESSION['output'] = $output;
 	$_SESSION['id'] = $time;

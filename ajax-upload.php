@@ -130,22 +130,31 @@ if ($matches)
 					$image->cropImage($imageprops['width'], $imageprops['width'], 0, (($imageprops['height']-$imageprops['width'])/2));
 				}
 				
-				$image->resizeImage(480,480,imagick::FILTER_CATROM, 0.9, true);
-				$image->writeImage($target_file);
+				$image->resizeImage(640,640,imagick::FILTER_CATROM, 0.9, true);
+				
+				$image->setImageFormat('jpeg');
+				$image->setImageCompressionQuality(90);
+				
+				
 
+				unlink($target_file);
+				$target_file = 'tmp/intermediate' . $time . '.jpg';
 												
 				switch ($exif['Orientation'])
 				{
 					case 8 :
-						$rotation = 270;
+						$image->rotateImage(new \ImagickPixel(), 270);
+						$rotation = 0;
 						break;
 						
 					case 3 :
-						$rotation = 180;
+						$image->rotateImage(new \ImagickPixel(), 180);
+						$rotation = 0;
 						break;
 					
 					case 6 :
-						$rotation = 90;
+						$image->rotateImage(new \ImagickPixel(), 90);
+						$rotation = 0;
 						break;
 						
 					default: 
@@ -153,10 +162,75 @@ if ($matches)
 					
 				}
 				
+				$image->writeImage('tmp/intermediate' . $time . '.jpg');
+				
+				
+				//Generate the gif version...
+			/*	
+				
+				$frames = array(
+							$target_file,
+							'files/gif-frames/frame3.jpg',
+							'files/gif-frames/frame4.jpg',
+							'files/gif-frames/frame5.jpg',
+							'files/gif-frames/frame6.jpg',
+							'files/gif-frames/frame7.jpg',
+							'files/gif-frames/frame8.jpg',
+							'files/gif-frames/frame9.jpg',
+							'files/gif-frames/frame10.jpg',
+							'files/gif-frames/frame11.jpg',
+							'files/gif-frames/frame12.jpg',
+							'files/gif-frames/frame13.jpg',
+							'files/gif-frames/frame14.jpg',
+							'files/gif-frames/frame15.jpg',
+							'files/gif-frames/frame17.jpg',
+							'files/gif-frames/frame19.jpg',
+							'files/gif-frames/frame21.jpg',
+							'files/gif-frames/frame23.jpg',
+							'files/gif-frames/frame25.jpg',
+							'files/gif-frames/frame27.jpg',
+							'files/gif-frames/frame29.jpg',
+							'files/gif-frames/frame31.jpg',
+							'files/gif-frames/frame33.jpg',
+							'files/gif-frames/frame35.jpg',
+							'files/gif-frames/frame37.jpg',
+							'files/gif-frames/frame39.jpg',
+							'files/gif-frames/frame41.jpg',
+							'files/gif-frames/frame43.jpg',
+							'files/gif-frames/frame45.jpg',
+							'files/gif-frames/frame47.jpg',
+							'files/gif-frames/frame48.jpg',
+							'files/gif-frames/frame49.jpg',
+							'files/gif-frames/frame50.jpg',
+							'files/gif-frames/frame51.jpg',
+							'files/gif-frames/frame52.jpg',
+							'files/gif-frames/frame53.jpg',
+							'files/gif-frames/frame54.jpg',
+							'files/gif-frames/frame55.jpg',
+							'files/gif-frames/frame56.jpg',
+							'files/gif-frames/frame57.jpg',
+							'files/gif-frames/frame58.jpg',
+							'files/gif-frames/frame59.jpg',
+							$target_file
+						);
+				
+				$durations = array(300,4,4,4,4,4,4,4,4,4,4,4,4,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,4,4,4,4,4,4,4,4,4,4,4,4,300);
+				
+				$gc = new GifCreator\GifCreator();
+				$gc->create($frames, $durations, 0);
+				$gifBinary = $gc->getGif();	
+				
+				file_put_contents('gifs/' . $time . '-cut.gif', $gifBinary);
+			
+				$gif = 'gifs/' . $time . '-cut.gif';
+				*/
+				
 			} catch ( Exception $e) {
 				
 				$rotation = 0;
 			}
+			
+			
 			
 		}
 	
@@ -203,7 +277,7 @@ if ($matches)
 				case 'image' :
 				
 				
-					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:480,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
+					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:640,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
 				
 					break;
 					
@@ -237,9 +311,9 @@ if ($matches)
 
 						if ($aspectRatio < 1)
 						{
-							$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=480:-2,crop=out_h=in_w,crop=in_w" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
+							$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=640:-2,crop=out_h=in_w,crop=in_w" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
 						} else {
-							$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:480,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
+							$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:640,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
 						}
 
 						break;
@@ -264,7 +338,7 @@ if ($matches)
 				case 'image' :
 				
 					
-					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:480,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
+					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:640,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
 				
 					break;
 					
@@ -290,13 +364,20 @@ if ($matches)
 		$ffmpeg = FFMpeg\FFMpeg::create();
 		$video = $ffmpeg->open('tmp/' . $time . 'upload-x264.mp4');
 		//Extract initial frame for display
-		$video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(0))->save('export/' . $time . 'cover.jpg');
+		$video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(0))->save('posters/' . $time . 'cover.jpg');
 	
 		 
 				
 		$outputArray = render_standard($ffprobe, $ffmpeg, $dimensions, $time, $time_start,$mode);
 		$outputArray['recode'] = $recode;
-		unlink($target_file);
+		
+		if ($gif) {
+			
+			$outputArray['gif'] = $gif;
+			
+		}
+		
+//		unlink($target_file);
 		
 		
 		//Save to database
@@ -342,7 +423,7 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 
 	$insertFile = APP_LOCATION . "files/brutal-cut-640x360.mp4";
 //	$insertFile = APP_LOCATION . "files/Brutal_Cut_ALPHA-640x360.mp4";   
-	$insertFileSquare = APP_LOCATION . "files/brutal-cut-480x480.mp4";
+	$insertFileSquare = APP_LOCATION . "files/brutal-cut-640x640.mp4";
 
 
 	if (($mode == 'video') || ($mode == 'gif'))
@@ -372,16 +453,16 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 		$output2=exec($clip2, $out2);
 		
 	
-		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'part1-x264.mp4 -i ' . $insertFile . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'part2-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'export/' . $time . '-output.mp4 2>&1';
+		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'part1-x264.mp4 -i ' . $insertFile . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'part2-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'videos/' . $time . '-output.mp4 2>&1';
 		
 	} else {
 		
-		$outputArray['width'] = 480;
-		$outputArray['height'] = 480;
+		$outputArray['width'] = 640;
+		$outputArray['height'] = 640;
 		$outputArray['aspectratio'] = 'square';
 		$_SESSION['aspectratio'] = 'square';
 		
-		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -i ' . $insertFileSquare . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'export/' . $time . '-output.mp4 2>&1';		
+		$concatComand = '/usr/bin/ffmpeg -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -i ' . $insertFileSquare . ' -i ' . APP_LOCATION . 'tmp/' . $time . 'upload-x264.mp4 -filter_complex "[0:v] setsar=sar=1 [in1]; [1:v] setsar=sar=1 [in2]; [2:v] setsar=sar=1 [in3]; [in1][in2][in3] concat=n=3 [v];[0:a][1:a][2:a] concat=n=3:v=0:a=1 [a]" -map "[v]" -map "[a]" -preset fast ' . APP_LOCATION . 'videos/' . $time . '-output.mp4 2>&1';		
 	}
 	
 
@@ -402,15 +483,15 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 	//Check final size and duration:
 	
 
-	$videoFormaFinal = $ffprobe->format('export/' . $time . '-output.mp4')->all();
+	$videoFormaFinal = $ffprobe->format('videos/' . $time . '-output.mp4')->all();
 	
 	
 	
 	$time_end = microtime(true);
 
-	$outputArray['url'] = 'export/' . $time . '-output.mp4';
+	$outputArray['url'] = 'videos/' . $time . '-output.mp4';
 	$outputArray['type'] = 'video/mp4';
-	$outputArray['poster'] = 'export/' . $time . 'cover.jpg';
+	$outputArray['poster'] = 'posters/' . $time . 'cover.jpg';
 //	$outputArray['command'] = $concatComand;
 	$outputArray['output'] = $output;
 	$outputArray['id'] = $time;

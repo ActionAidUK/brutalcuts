@@ -4,6 +4,7 @@
         "facebook/php-sdk-v4" : "^5.0",
         "guzzlehttp/guzzle": "^6.2",
         "sybio/gif-creator": "^1.0",
-        "jublonet/codebird-php": "~3.0.0"
+        "jublonet/codebird-php": "~3.0.0",
+        "swiftmailer/swiftmailer": "@stable"
     }
 }

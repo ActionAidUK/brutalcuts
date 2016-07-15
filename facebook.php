@@ -11,6 +11,7 @@ if (isset($_GET['vid']))
 	$_SESSION['vid'] = $_GET['vid'];
 }
 
+$aspectRatio = @$_SESSION['aspectratio'];
 
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/settings/facebook.php';	
@@ -21,7 +22,7 @@ $time = time();
 
 @$vid = $_GET['vid'] ? $_GET['vid'] : $_SESSION['vid'];
 
-if ($_SESSION['aspectratio'] == 'square')
+if ($aspectRatio == 'square')
 {
 	$class="embed-responsive-square";
 } else {
@@ -45,6 +46,7 @@ if (isset($_SESSION['facebook_access_token']))
 		session_start();
 
 		$_SESSION['vid'] = $vid;
+		$_SESSION['aspectratio'] = $aspectRatio;
 		
 		$permissions = ['publish_actions']; // optional
 		$loginUrl = $helper->getLoginUrl('https://' . $_SERVER['HTTP_HOST'] . '/facebooklogin-callback.php', $permissions);
@@ -57,6 +59,7 @@ if (isset($_SESSION['facebook_access_token']))
 		session_start();
 
 		$_SESSION['vid'] = $vid;
+		$_SESSION['aspectratio'] = $aspectRatio;
 	$permissions = ['publish_actions']; // optional
 		
 	$loginUrl = $helper->getLoginUrl('https://' . $_SERVER['HTTP_HOST'] . '/facebooklogin-callback.php', $permissions);
@@ -64,10 +67,10 @@ if (isset($_SESSION['facebook_access_token']))
 		
 }
 
-if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vid . 'cover.jpg'))
+if (file_exists('videos/' . $vid . '-output.mp4') && file_exists('posters/' . $vid . 'cover.jpg'))
 {
-	$video = 'export/' . $vid . '-output.mp4';
-	$poster = 'export/' . $vid . 'cover.jpg';
+	$video = 'videos/' . $vid . '-output.mp4';
+	$poster = 'posters/' . $vid . 'cover.jpg';
 }
 
 ?><!DOCTYPE html>
@@ -90,31 +93,33 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/fancybox/jquery.fancybox.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/fancybox/jquery.fancybox.css">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/apple-touch-icon-57x57.png" />
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/apple-touch-icon-144x144.png" />
-<link rel="apple-touch-icon-precomposed" sizes="60x60" href="images/apple-touch-icon-60x60.png" />
-<link rel="apple-touch-icon-precomposed" sizes="120x120" href="images/apple-touch-icon-120x120.png" />
-<link rel="apple-touch-icon-precomposed" sizes="76x76" href="images/apple-touch-icon-76x76.png" />
-<link rel="apple-touch-icon-precomposed" sizes="152x152" href="images/apple-touch-icon-152x152.png" />
-<link rel="icon" type="image/png" href="images/favicon-196x196.png" sizes="196x196" />
-<link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-<link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-<link rel="icon" type="image/png" href="images/favicon-128.png" sizes="128x128" />
+   
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="/images/apple-touch-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="/images/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/images/apple-touch-icon-152x152.png" />
+<link rel="icon" type="image/png" href="/images/favicon-196x196.png" sizes="196x196" />
+<link rel="icon" type="image/png" href="/images/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="/images/favicon-128.png" sizes="128x128" />
 <meta name="application-name" content="&nbsp;"/>
 <meta name="msapplication-TileColor" content="#FFFFFF" />
-<meta name="msapplication-TileImage" content="images/mstile-144x144.png" />
-<meta name="msapplication-square70x70logo" content="images/mstile-70x70.png" />
-<meta name="msapplication-square150x150logo" content="images/mstile-150x150.png" />
-<meta name="msapplication-wide310x150logo" content="images/mstile-310x150.png" />
-<meta name="msapplication-square310x310logo" content="images/mstile-310x310.png" />
+<meta name="msapplication-TileImage" content="/images/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="/images/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="/images/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="/images/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="/images/mstile-310x310.png" />
+
 
 
    <script>
@@ -169,7 +174,7 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 	<form id="facebooker" class="sendForm" method="post" name="facebooker">
 		
 		<p>
-		<textarea rows="12" name="facebookText" class="shareText" data-limit="250" id="facebookText" style="width: 100%; height: 200px; border-color: #e5e6e9 #dfe0e4 #d0d1d5;">I’m supporting @ActionAidUK's disruptive #BrutalCut video campaign to help end FGM. Visit BrutalCut.org now or TEXT 1234 to donate now.</textarea>
+		<textarea rows="12" name="facebookText" class="shareText" data-limit="250" id="facebookText" data-type="facebook" style="width: 100%; height: 200px; border-color: #e5e6e9 #dfe0e4 #d0d1d5;">I’m supporting @ActionAidUK's disruptive #BrutalCut video campaign to help end FGM. Visit http://po.st/YUR7IF now or TEXT 1234 to donate now.</textarea>
 		</p>
 		
 		<p class="counter"><span id="charCount">115</span> characters remaining</p>
@@ -202,19 +207,19 @@ if (file_exists('export/' . $vid . '-output.mp4') && file_exists('export/' . $vi
 	</form>
 	
 	<div id="caseForSupport" class="caseForSupport">
-				<p><strong>Thank you for sharing your #BrutalCut video to help raise awareness about this brutal procedure putting so many girls’ lives at risk.</strong></p>
+					<p><strong>Thank you for sharing your #BrutalCut to help raise awareness about this dangerous practice putting so many girls’ lives at risk.</strong></p>
 
-					<p>If you’d like to make a donation too, however small, that would be amazing.</p>
+					<p>If you’d like to <a href="https://support.actionaid.org.uk/donate?sku=496&amount=15">make a donation</a> too, however small, that would be amazing.</p>
 
 					<p><img src="images/abigail.jpg" class="img-responsive" alt="Abigail" /></p>
 
-					<p>14-year-old Abigail, pictured above, is from Kenya. She narrowly escaped having FGM by running away and finding safety at an ActionAid-funded safe house. With your support, we can build more safe centres for girls at risk of FGM, where they can go back to school and rebuild their lives free from fear.</p>
+					<p>14-year-old Abigail, pictured above, is from Kenya. She narrowly escaped FGM by running away and finding safety at an ActionAid-funded safe house. With your support, we can build more safe centres for girls at risk of FGM, where they can go back to school and rebuild their lives free from fear.</p>
 
 					<p>And we won’t stop there: our centres will be community hubs, where local women’s groups can come together and continue the fight against FGM.</p>
 
 					<p><strong>Please help Kenyan girls escape FGM, for good.</strong></p>
 					
-					<p><a href="https://support.actionaid.org.uk/donate?sku=6&amount=15" class="red-box-button">Make a donation now</a></p>
+					<p><a href="https://support.actionaid.org.uk/donate?sku=496&amount=15" class="red-box-button">Make a donation now</a></p>
 
 					
 				</div>

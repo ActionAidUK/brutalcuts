@@ -24,9 +24,9 @@ $time = time();
 @$message = $_POST['facebookText'] ? $_POST['facebookText'] : $_GET['facebookText'];
 
 
-if (file_exists('export/' . $vid . '-output.mp4'))
+if (file_exists('videos/' . $vid . '-output.mp4'))
 {
-	$video = 'export/' . $vid . '-output.mp4';
+	$video = 'videos/' . $vid . '-output.mp4';
 } else {
 	 echo json_encode(array('error' => 'No video chosen','type'=>'vidError'));
 	 exit;
