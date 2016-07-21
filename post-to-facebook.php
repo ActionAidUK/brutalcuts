@@ -106,7 +106,7 @@ $error = $e;
 $conn = null;
 
 
-echo json_encode(array('success' => @$response['success'], 'video_id' => @$response['video_id'],'error'=>$stmt));
+echo json_encode(array('success' => @$response['success'], 'video_id' => @$response['video_id']));
 
 
 

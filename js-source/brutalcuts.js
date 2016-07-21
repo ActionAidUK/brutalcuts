@@ -378,6 +378,8 @@ aauk.imagesLoaded = false;
 		uploadStatus : {},
 		uploadDots : {},
 		uploadDotCount : 1,
+		quality : 'regular',
+		theURL : '/ajax-upload.php',
 		
 		init : function () {
 			
@@ -391,11 +393,17 @@ aauk.imagesLoaded = false;
 			_this.theDropZoneTrigger = $("#dropzoneTrigger");
 			_this.dropzoneText = $("#dropzone-text");
 			_this.dropzoneResults = $("#dropzone-results");
+			_this.quality = _this.theForm.data('quality');
 			
-			
-				
+			if (_this.quality == 'high')
+			{
+				_this.theURL = '/ajax-upload-high.php';
+			} else {
+				_this.theURL = '/ajax-upload.php';
+			}
+							
 			_this.theDropZoneTrigger.dropzone({ 
-				url: "/ajax-upload.php",
+				url: _this.theURL,
 				maxFilesize: 64,
 				paramName: 'video-blob',
 				acceptedFiles: 'image/*,video/*',
@@ -528,7 +536,7 @@ aauk.imagesLoaded = false;
 							
 					
 					$.ajax({
-				        url: '/ajax-upload.php',
+				        url: _this.theURL,
 				        data: fd,
 				        processData: false,
 				        method: 'POST',
@@ -569,12 +577,11 @@ aauk.imagesLoaded = false;
 			parent.postMessage({method : 'scroll'},"https://www.actionaid.org.uk");
 			        
 			$("#finalVideo").html('<div class="align-wrapper ' + wrapperClass + '"><div align="center" class="embed-responsive ' + wrapperClass + '" ><video id="brutalCut"  autoplay poster="' + json.poster + '" controls class="embed-responsive-item"><source src="' + json.url + '" type="video/mp4">Your browser does not support the video tag.</video></div></div>');
-			$("#shareContainer").html('<p><a download target="_blank" class="red-box-button inline-button file-download-button" id="downloadButton" href="' + json.url + '"><span class="download-icon"></span>Download</a><a target="_blank" id="shareToTwitter" class="red-box-button twitter inline-button" href="twitter.php?vid=' + json.id + '" data-sharetype="TShareOauth" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to twitter</a><a target="_blank" id="shareToFacebook" class="red-box-button facebook inline-button" href="facebook.php?vid=' + json.id + '" data-sharetype="facebookShare" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to Facebook</a></p>');
+			$("#shareContainer").html('<p><a target="_blank" id="shareToFacebook" class="red-box-button facebook inline-button" href="facebook.php?vid=' + json.id + '" data-sharetype="facebookShare" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to Facebook</a><a target="_blank" id="shareToTwitter" class="red-box-button twitter inline-button" href="twitter.php?vid=' + json.id + '" data-sharetype="TShareOauth" data-videoid="' + json.id + '" target="_blank" data-sharevideo="' + json.url + '"><span class="social-logo"></span>Share to twitter</a><a download target="_blank" class="red-box-button inline-button file-download-button" id="downloadButton" href="' + json.url + '"><span class="download-icon"></span>Download</a></p>');
 			//Twitter caon only handle <15Mb and < 30secs...
 			if ((Number(json.duration) > 29.99) || (Number(json.size) > 15728640))
 			{	
 				$("#shareToTwitter").hide();
-				
 				$('.shareWrapper').addClass('no-twitter');
 				
 			}
@@ -788,7 +795,7 @@ aauk.imagesLoaded = false;
 							console.log(json);	
 							sendingNotification.hide();	
 							
-							$("h1").text('Thank you for tweetingt!');
+							$("h1").text('Thank you for tweeting!');
 							
 							$("#tweeter").slideUp();
 							$("#caseForSupport").slideDown();
@@ -922,10 +929,11 @@ aauk.imagesLoaded = false;
 
 					} else if($(this).val().length < 1) {
 						
+						if (_this.shareType == 'twitter') {
 						$("#noTextError").slideDown();
+						}
 					
 					} else {
-						
 						$("#noTextError").slideUp();
 						_this.counterText.removeClass('error');
 						
@@ -1014,6 +1022,7 @@ aauk.imagesLoaded = false;
 						
 						aauk.shake($('.counter'));
 						
+						
 						return false;
 				
 					} else if($(".shareText").val().length < 1) {
@@ -1043,9 +1052,9 @@ aauk.imagesLoaded = false;
 					
 					} else if($(".shareText").val().length < 1) {
 						
-						$("#noTextError").slideDown();
+				//		$("#noTextError").slideDown();
 						
-						return false;
+				//		return false;
 					}
 					
 					

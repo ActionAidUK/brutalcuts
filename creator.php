@@ -122,7 +122,7 @@ if (isset($_SESSION['error'])) {
 	        
             <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-md-offset-1 col-lg-offset-2">
                 <div class="upload-area">
-                    <form method="post" action="upload.php" id="videoUploadForm" class="" data-quality="regular" enctype="multipart/form-data">
+                    <form method="post" action="upload-high.php" id="videoUploadForm" class="" data-quality="high" enctype="multipart/form-data">
                         <div id="simpleCapture">
                             <div class="dropzoneWrapper">
 	                            <div id="dropzone" class="dropzone-border">

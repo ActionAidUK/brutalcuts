@@ -26,7 +26,7 @@ $cb = \Codebird\Codebird::getInstance();
 if (! isset($_SESSION['oauth_token'])) {
   // get the request token
   $reply = $cb->oauth_requestToken([
-    'oauth_callback' => 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
+    'oauth_callback' => 'https://' . $_SERVER['HTTP_HOST'] . '/twitter.php?vid=' . $_GET['vid']
   ]);
 
   // store the token
@@ -157,7 +157,7 @@ if (file_exists('videos/' . $vid . '-output.mp4') && file_exists('posters/' . $v
 				
 				<form id="tweeter" class="sendForm" method="post" name="tweeterform">
 					<div class="error-box" id="noTextError"><ul><li>Please enter some text</li></ul></div>
-					<p><textarea rows="12" name="tweetText" class="shareText"  id="tweetText" data-type="twitter" data-limit="116" style="width: 100%; height: 200px;">Check out @ActionAidUK's disruptive #BrutalCut video campaign to #endFGM. Visit http://po.st/uFfMvZ.</textarea></p>
+					<p><textarea rows="12" name="tweetText" class="shareText"  id="tweetText" data-type="twitter" data-limit="116" style="width: 100%; height: 200px;">Check out my new video for @ActionAidUK. Show your support too - visit http://po.st/uFfMvZ #BrutalCut</textarea></p>
 					
 					<p class="counter"><span id="charCount">17</span> characters remaining</p>
 					

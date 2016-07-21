@@ -174,7 +174,7 @@ if (file_exists('videos/' . $vid . '-output.mp4') && file_exists('posters/' . $v
 	<form id="facebooker" class="sendForm" method="post" name="facebooker">
 		
 		<p>
-		<textarea rows="12" name="facebookText" class="shareText" data-limit="250" id="facebookText" data-type="facebook" style="width: 100%; height: 200px; border-color: #e5e6e9 #dfe0e4 #d0d1d5;">I’m supporting @ActionAidUK's disruptive #BrutalCut video campaign to help end FGM. Visit http://po.st/YUR7IF now or TEXT 1234 to donate now.</textarea>
+		<textarea rows="12" name="facebookText" class="shareText" data-limit="250" id="facebookText" data-type="facebook" style="width: 100%; height: 200px; border-color: #e5e6e9 #dfe0e4 #d0d1d5;" placeholder="Enter your mesage here..."></textarea>
 		</p>
 		
 		<p class="counter"><span id="charCount">115</span> characters remaining</p>

@@ -2470,10 +2470,11 @@ textarea {
       .shareWrapper.no-twitter {
         width: 490px; }
       .shareWrapper .file-download-button {
-        width: 180px;
-        margin-right: 10px; }
+        width: 180px; }
       .shareWrapper .twitter, .shareWrapper .facebook {
         width: 300px; }
+      .shareWrapper .facebook {
+        margin-right: 10px; }
       .shareWrapper .twitter {
         margin-right: 10px; } }
 
