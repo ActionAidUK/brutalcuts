@@ -1,5 +1,8 @@
 <?php
 
+
+header( 'Location: https://www.actionaid.org.uk/get-involved/fgm-brutal-cut' );  
+
 session_start();
 
 if (isset($_SESSION['error'])) {
@@ -133,11 +136,10 @@ if (isset($_SESSION['error'])) {
 											
 											<div class="dropzone-text" id="dropzone-text">
 											<p>
-					                             <img src="images/image.svg" alt="Image" width="90" height="90" />
-					                             <img src="images/video.svg" alt="Video" width="90" height="90" />   
+					                             <img src="images/selfie.svg" alt="Selfie" width="90" height="90" />
 		                             		</p>
 									 		
-			                                <p id="bcInstructions">To get started, click here, or drag and drop an image or video on to the dotted outline.</p>
+			                                <p id="bcInstructions">To get started, click here, or drag and drop an image on to the dotted outline.</p>
 			                                <p id="filesize">&nbsp;</p>
 											<p id="fallbackButton"><input type="file" id="uploadFile" accept="capture=camcorder" name="video-blob"></p>
 											</div>
@@ -191,8 +193,8 @@ if (isset($_SESSION['error'])) {
             <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
 		        
 		        <div align="center" class="share-video embed-responsive embed-responsive-square" style="margin-top: 0;" >
-			         <video id="brutalCut" poster="files/example-cover.jpg" muted autoplay loop class="embed-responsive-item">
-				         <source src="files/example.mp4" type="video/mp4">Your browser does not support the video tag.</source>
+			         <video id="brutalCut" poster="files/cover-example.jpg" muted autoplay loop class="embed-responsive-item">
+				         <source src="files/selfie.mp4" type="video/mp4">Your browser does not support the video tag.</source>
 				     </video>
 			    	</div>
 		        
@@ -200,11 +202,11 @@ if (isset($_SESSION['error'])) {
 	        
 	        
 	        <div class="col-xs-12 col-sm-6 col-sm-offset-3 bc-instructions">
-		       <h2>How to add a #BrutalCut to your photo or video</h2>
+		       <h2>How to customise your selfie</h2>
 <ol>
-<li>1.&nbsp;Click on the #BrutalCut tool above</li>
-<li>2.&nbsp;Choose a photo or short video</li>
-<li>3.&nbsp;Our tool will add a #BrutalCut to your picture or video for you to share on Facebook or Twitter</li>
+<li>1.&nbsp;Click on the editing tool above</li>
+<li>2.&nbsp;Upload a selfie of your choice </li>
+<li>3.&nbsp;Our tool will add a message about FGM from Kenya to your picture for you to share on Facebook or Twitter</li>
 </ol>
 	        </div>
 

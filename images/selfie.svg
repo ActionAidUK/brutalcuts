@@ -1,0 +1,8 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="88.58" height="89" viewBox="0 0 88.58 89">
+  <title>selfie</title>
+  <path d="M58.05,27.1a13,13,0,1,0-13,13A13,13,0,0,0,58.05,27.1ZM23.25,59.3V72.7a1.16,1.16,0,0,0,1.2,1.2h41.1a1.16,1.16,0,0,0,1.2-1.2V59.3a14.4,14.4,0,0,0-14.4-14.4H37.75A14.36,14.36,0,0,0,23.25,59.3Z" transform="translate(-0.5 -0.5)" style="fill: #fff"/>
+  <path d="M31.58,2H10a8,8,0,0,0-8,8V31" transform="translate(-0.5 -0.5)" style="fill: none;stroke: #fff;stroke-miterlimit: 10;stroke-width: 3px"/>
+  <path d="M2,59V80a8,8,0,0,0,8,8H31.58" transform="translate(-0.5 -0.5)" style="fill: none;stroke: #fff;stroke-miterlimit: 10;stroke-width: 3px"/>
+  <path d="M58,2H79.58a8,8,0,0,1,8,8V31" transform="translate(-0.5 -0.5)" style="fill: none;stroke: #fff;stroke-miterlimit: 10;stroke-width: 3px"/>
+  <path d="M87.58,59V80a8,8,0,0,1-8,8H58" transform="translate(-0.5 -0.5)" style="fill: none;stroke: #fff;stroke-miterlimit: 10;stroke-width: 3px"/>
+</svg>

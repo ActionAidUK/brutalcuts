@@ -406,12 +406,12 @@ aauk.imagesLoaded = false;
 				url: _this.theURL,
 				maxFilesize: 64,
 				paramName: 'video-blob',
-				acceptedFiles: 'image/*,video/*,video/mp4,video/quicktime',
+				acceptedFiles: 'image/*,video/*',
 				
 				fallback : function() {
 				
 					$("#dropzoneTrigger").remove();
-					$("#bcInstructions").text("To get started, add a selfie here.");
+					$("#bcInstructions").text("To get started, add an image or video here.");
 					$("#filesize").show();
 					$("#fallbackButton").show();
 					
@@ -454,7 +454,7 @@ aauk.imagesLoaded = false;
 					
 					if (aauk.isTouchDeviceDetect())
 					{
-						$("#bcInstructions").text('To get started, click here to upload a selfie.');
+						$("#bcInstructions").text('To get started, click here to upload an image or video.');
 					}
 					
 					
@@ -561,6 +561,9 @@ aauk.imagesLoaded = false;
 		displayVideo : function (json)
 		{
 			var wrapperClass;
+			
+			alert(json.error);
+			
 			console.log(json);
 			$("#submit-wrap-upload").show();
 			$("#spinner-upload").hide();
@@ -593,8 +596,6 @@ aauk.imagesLoaded = false;
 				
 			}
 			*/
-			
-			fbq('track', 'CompleteRegistration');
 				        
 			$("#finalVideo").fadeIn();
 			

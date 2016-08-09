@@ -204,7 +204,7 @@ if ($matches)
 				case 'image' :
 				
 				
-					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:720,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
+					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 4 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:720,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
 				
 					break;
 					
@@ -238,9 +238,9 @@ if ($matches)
 
 						if ($aspectRatio < 1)
 						{
-							$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=720:-2,crop=out_h=in_w,crop=in_w" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
+							$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 4 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=720:-2,crop=out_h=in_w,crop=in_w" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
 						} else {
-							$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:720,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
+							$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 4 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:720,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
 						}
 
 						break;
@@ -265,7 +265,7 @@ if ($matches)
 				case 'image' :
 				
 					
-					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 2 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:720,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
+					$recode = 'ffmpeg -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -loop 1 -i ' . $target_file .' -shortest -c:v libx264 -c:a aac -strict -2 -t 4 -r 24 -pix_fmt yuv420p -vf "' . $transpose . 'scale=-2:720,crop=out_w=in_h,crop=in_h" -preset ultrafast tmp/' . $time . 'upload-x264.mp4';				
 				
 					break;
 					
@@ -348,7 +348,7 @@ function render_standard($ffprobe,$ffmpeg,$dimensions,$time,$time_start,$mode) {
 
 	$insertFile = APP_LOCATION . "files/brutal-cut-1280x720.mp4";
 //	$insertFile = APP_LOCATION . "files/Brutal_Cut_ALPHA-640x360.mp4";   
-	$insertFileSquare = APP_LOCATION . "files/brutal-cut-720x720.mp4";
+	$insertFileSquare = APP_LOCATION . "files/brutal-cut-video720x720.mp4;
 
 
 	if (($mode == 'video') || ($mode == 'gif'))
