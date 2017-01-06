@@ -199,13 +199,12 @@ if (isset($_SESSION['error'])) {
 	        
 	        
 	        <div class="col-xs-12 col-sm-6 col-sm-offset-3 bc-instructions">
-				      	       <h2>How to customise your selfie</h2>
+				      	    		       <h2>How to customise your selfie with a #BrutalCut</h2>
 <ol>
 <li>1.&nbsp;Click on the editing tool above</li>
 <li>2.&nbsp;Upload a selfie of your choice </li>
-<li>3.&nbsp;Our tool will add a message about FGM from Kenya to your picture for you to share on Facebook or Twitter</li>
-</ol>
-	        </div>
+<li>3.&nbsp;Our tool will add a message about FGM from Kenya to your picture for you to share on Facebook or Twitter. Don’t forget to use #BrutalCut when you post.</li>
+</ol>	        </div>
 
             
             <!-- End Col 1 -->

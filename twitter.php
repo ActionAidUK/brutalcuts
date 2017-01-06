@@ -131,7 +131,14 @@ if (file_exists('videos/' . $vid . '-output.mp4') && file_exists('posters/' . $v
 
 </head>
 <body class="share-window" style="background: #000">
-	
+<!-- Twitter single-event website tag code -->
+<script src="//platform.twitter.com/oct.js" type="text/javascript"></script>
+<script type="text/javascript">twttr.conversion.trackPid('nvb17', { tw_sale_amount: 0, tw_order_quantity: 0 });</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt="" src="https://analytics.twitter.com/i/adsct?txn_id=nvb17&p_id=Twitter&tw_sale_amount=0&tw_order_quantity=0" />
+<img height="1" width="1" style="display:none;" alt="" src="//t.co/i/adsct?txn_id=nvb17&p_id=Twitter&tw_sale_amount=0&tw_order_quantity=0" />
+</noscript>
+<!-- End Twitter single-event website tag code -->	
 <div class="share-wrap" style="background: #f5f8fa">	
 	<nav class="navbar navbar-default main-site-navigation">
             <div class="container">
